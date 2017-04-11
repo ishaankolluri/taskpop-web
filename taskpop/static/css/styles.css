@@ -62,11 +62,11 @@ body.fade-out {
 
 button:hover {
   background-color: #3C9089;
-
 }
 
 .leftCol {
   float: left;
+  text-align: left;
   width: 50%;
   margin: 10px 25px;
 }
@@ -75,15 +75,18 @@ button:hover {
   width: 40%;
   margin: 10px 25px;
   float: right;
+
 }
-.leftCol span, .rightCol span {
-  font-size: 40px;
+.logSplash {
+  font-size: 50px;
   color: #58595B;
   font-weight: normal;
-  padding-bottom: 50px;
-  margin: 30px 0px;
+  margin-bottom: 30px;
 }
 
+#title {
+  color: #58595B;
+}
 #facebook {
   background-color: #3B5998;
   border: none;
