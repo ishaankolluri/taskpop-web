@@ -12,5 +12,14 @@ def login(request):
 
 
 def home(request):
-    print request
+    print "Reached the home request"
+    print request.__dict__
+    # This is only if the user has been unauthenticated.
+    return HttpResponseRedirect(reverse('taskpop:login'))
+
+    # return HttpResponseRedirect(reverse('taskpop:')
+
+
+def logout(request):
+    # The OAuth should already have handled this.
     return HttpResponseRedirect(reverse('taskpop:login'))

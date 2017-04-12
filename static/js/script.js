@@ -10,7 +10,6 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   var id_token = googleUser.getAuthResponse().id_token;
   console.log("Send to AWS: " + id_token);
-  console.log("helloe");
   var json_data = {
     "token": id_token,
     "name": profile.getName(),
