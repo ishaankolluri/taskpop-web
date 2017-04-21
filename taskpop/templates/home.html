@@ -3,40 +3,37 @@
 <html>
 
 <head>
-    <title>Taskpop</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-
+    <title>Home</title>
     <!-- CSS -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
-    <!-- Jquery -->
+    <!-- Jquery Information -->
     <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/themes/black-tie/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/jquery-ui.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- AWS Information -->
-    <script src="{% static 'js/aws-sdk.min.js' %}"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.35.0.min.js"></script>
-    <script src="{% static 'js/aws-cognito-sdk.min.js' %}"></script>
-    <script src="{% static 'js/amazon-cognito-identity.min.js' %}"></script>
-
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
 
     <!-- Google OAuth -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="381942234330-s4s0o7nb0elv09gdvvfno0cotca456op.apps.googleusercontent.com">
+
+    <!-- AWS Cognito -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.35.0.min.js"></script>
 
     <!-- Personal JavaScript -->
     <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </head>
 
 <body>
-  <script>document.body.className += 'fade-out';</script>
+  <!-- <script>document.body.className += 'fade-out';</script>
     <div>
         <div class="header">
           <div id="title">Welcome to Taskpop!</div>
+          <button>Register</button>
         </div>
     </div>
 
@@ -47,15 +44,15 @@
     </div>
 
     <div class="rightCol">
-<<<<<<< HEAD
-      <!--<div style="text-align:left;"><span>Sign In</span></div>-->
-      <div class="signIn">
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      </div>
-=======
       <div class="logSplash">Sign In</div>
       <div class="g-signin2" data-onsuccess="onSignIn"></div>
->>>>>>> 69387b42ee5468ed19e2320f78c00e585a9a5d2e
+    </div> -->
+
+    <div class="navbar">
+      <li>Home</li>
+      <li>Calendar</li>
+      <li></li>
+      <li>Home</li>
     </div>
 </body>
 

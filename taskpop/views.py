@@ -14,3 +14,10 @@ def login(request):
 def home(request):
     print request
     return render(request, 'base.html')
+
+
+    # return HttpResponseRedirect(reverse('taskpop:')
+
+def logout(request):
+    # The OAuth should already have handled this.
+    return HttpResponseRedirect(reverse('taskpop:login'))
