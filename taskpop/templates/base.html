@@ -8,7 +8,7 @@
     <meta charset="utf-8">
 
     <!-- CSS -->
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
 
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/themes/black-tie/jquery-ui.css">
@@ -29,29 +29,23 @@
     <meta name="google-signin-client_id" content="381942234330-s4s0o7nb0elv09gdvvfno0cotca456op.apps.googleusercontent.com">
 
     <!-- Personal JavaScript -->
-    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 </head>
 
+
 <body>
-  <script>document.body.className += 'fade-out';</script>
-    <div>
-        <div class="header">
-          <div id="title">Welcome to Taskpop!</div>
-        </div>
-    </div>
+{% block navbar %}
+<div class="nav" id="nav">
+    <a href="#home">Home</a>
+    <a href="#news">Task List</a>
+    <a href="#contact">Calendar</a>
+    <a href="#about">Settings</a>
+    <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">&#9776;</a>
+</div>
+{% endblock %}
+{% block content %}
+{% endblock %}
 
-    <div class="leftCol">
-      <span>Welcome to Taskpop.</span><br>
-      <span>Stay focused.</span><br>
-      <span>One thing at a time.</span><br>
-    </div>
-
-    <div class="rightCol">
-      <!--<div style="text-align:left;"><span>Sign In</span></div>-->
-      <div class="signIn">
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      </div>
-    </div>
 </body>
 
 </html>

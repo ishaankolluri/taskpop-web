@@ -13,4 +13,4 @@ def login(request):
 
 def home(request):
     print request
-    return HttpResponseRedirect(reverse('taskpop:login'))
+    return render(request, 'base.html')
