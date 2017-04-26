@@ -29,14 +29,6 @@ body.fade-out {
     width: 100%;
 }
 
-<<<<<<< HEAD
-=======
-/*.header * {
-  margin: 0px 30px;
-
-}*/
-
->>>>>>> 69387b42ee5468ed19e2320f78c00e585a9a5d2e
 .header #title {
   display: table-cell;
   vertical-align: bottom;
@@ -65,18 +57,11 @@ body.fade-out {
 
 button:hover {
   background-color: #3C9089;
-<<<<<<< HEAD
-
-=======
->>>>>>> 69387b42ee5468ed19e2320f78c00e585a9a5d2e
 }
 
 .leftCol {
   float: left;
-<<<<<<< HEAD
-=======
   text-align: left;
->>>>>>> 69387b42ee5468ed19e2320f78c00e585a9a5d2e
   width: 50%;
   margin: 10px 25px;
 }
@@ -85,14 +70,13 @@ button:hover {
   width: 40%;
   margin: 10px 25px;
   float: right;
-<<<<<<< HEAD
+
 }
 .leftCol span {
   font-size: 30px;
   color: #58595B;
   font-weight: normal;
-  padding-bottom: 50px;
-  margin: 30px 0px;
+  margin-bottom: 30px;
 }
 
 .rightCol span {
@@ -106,33 +90,3 @@ button:hover {
 .signIn {
     font-size: 25px;
 }
-=======
-
-}
-.logSplash {
-  font-size: 50px;
-  color: #58595B;
-  font-weight: normal;
-  margin-bottom: 30px;
-}
-
-#title {
-  color: #58595B;
-}
-#facebook {
-  background-color: #3B5998;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  padding: 10px 15px;
-  margin: 30px 0px;
-  text-decoration: none;
-  text-align: center;
-  font-size: 18px;
-  font-family: "Open Sans", sans-serif;
-}
-
-#facebook:hover {
-  background-color: #283C67;
-}
->>>>>>> 69387b42ee5468ed19e2320f78c00e585a9a5d2e
