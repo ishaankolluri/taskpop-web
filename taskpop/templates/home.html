@@ -1,59 +1,48 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>Home</title>
-    <!-- CSS -->
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+{% block css %}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
 
-    <!-- Jquery Information -->
-    <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/themes/black-tie/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/jquery-ui.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
+<!-- Lots of temporary, ungenerated content here. -->
+{% block content %}
+    <div class="greeting">Good evening, User. Your top three priorities are below.</div>
+{#    <div>Good evening, {{ user.name }}. Your top three priorities are below.</div>#}
 
-    <!-- Google OAuth -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="381942234330-s4s0o7nb0elv09gdvvfno0cotca456op.apps.googleusercontent.com">
-
-    <!-- AWS Cognito -->
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.35.0.min.js"></script>
-
-    <!-- Personal JavaScript -->
-    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
-</head>
-
-<body>
-  <!-- <script>document.body.className += 'fade-out';</script>
-    <div>
-        <div class="header">
-          <div id="title">Welcome to Taskpop!</div>
-          <button>Register</button>
+    <div class="topThree">
+        <div class="card">
+            <span>Task Name</span>
+            <br>
+            <span>4:30p.m. - December 25th, 2017</span>
+            <br>
+            <div class="complete"><a href="#complete">Complete</a></div>
         </div>
+        <div class="card">
+            <span>Task Name</span>
+            <br>
+            <span>4:30p.m. - December 25th, 2017</span>
+            <br>
+            <div class="complete"><a href="#complete">Complete</a></div>
+        </div>
+        <div class="card">
+            <span>Task Name</span>
+            <br>
+            <span>4:30p.m. - December 25th, 2017</span>
+            <br>
+            <div class="complete"><a href="#complete">Complete</a></div>
+        </div>
+{#        {% for task in tasks %}#}
+{#            <div class="card">#}
+{#                <span>{{ task.name }}</span>#}
+{#                <br>#}
+{#                <span>{{ task.date }}</span>#}
+{#                <br>#}
+{#                <div><a href="#complete">Complete</a></div>#}
+{#            </div>#}
+{#        {% endfor %}#}
     </div>
+    <div class="edit">Edit or Reprioritize Task List</div>
 
-    <div class="leftCol">
-      <span class="logSplash">Welcome to Taskpop.</span><br>
-      <span class="logSplash">Stay focused.</span><br>
-      <span class="logSplash">One thing at a time.</span><br>
-    </div>
-
-    <div class="rightCol">
-      <div class="logSplash">Sign In</div>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    </div> -->
-
-    <div class="navbar">
-      <li>Home</li>
-      <li>Calendar</li>
-      <li></li>
-      <li>Home</li>
-    </div>
-</body>
-
-</html>
+{% endblock %}

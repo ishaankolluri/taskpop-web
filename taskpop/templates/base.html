@@ -6,9 +6,11 @@
     <title>Taskpop</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
+    <link href="{% static 'favicon.ico' %}" rel="shortcut icon" type="image/x-icon" />
 
     <!-- CSS -->
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    {% block css %}{% endblock %}
 
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/themes/black-tie/jquery-ui.css">

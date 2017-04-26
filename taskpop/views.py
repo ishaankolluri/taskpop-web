@@ -13,7 +13,7 @@ def login(request):
 
 def home(request):
     print request
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 
     # return HttpResponseRedirect(reverse('taskpop:')
