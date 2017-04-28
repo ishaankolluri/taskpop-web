@@ -1,10 +1,12 @@
 .greeting {
-    width: 100%;
+    width: 60%;
+    float: left;
     text-align: left;
     font-size: 24px;
     padding-left: 30px;
     padding-top: 15px;
     padding-bottom: 15px;
+    margin-right: 0px;
 }
 
 .topThree {
@@ -66,14 +68,10 @@
     /*box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);*/
 }
 
-.create {
-    width: 50%;
-
-}
-
 .circleButton {
-
+    float: right;
+    width: 20%;
+    display: block;
 }
-
 
 

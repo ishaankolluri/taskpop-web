@@ -4,14 +4,12 @@
 {% block css %}
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
 {% endblock %}
-{% block js %}
-{% end %}
 
 
 <!-- Lots of temporary, ungenerated content here. -->
 {% block content %}
     <div class="greeting">Good evening, User. Your top three priorities are below.</div>
-    <a href="{% url %}"<div class="create"></div>
+    <a href="" class="circleButton"><img src="static/img/Button.png" onmouseover="this.src='static/img/Hover.png'" onmouseout="this.src='static/img/Button.png'"></a>
 {#    <div>Good evening, {{ user.name }}. Your top three priorities are below.</div>#}
 
     <div class="topThree">
