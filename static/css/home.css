@@ -1,55 +1,70 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
-
-html {
-    font-family: 'Open Sans', sans serif;
-}
-.nav {
-    background-color: #3C9089;
-    overflow: hidden;
+.greeting {
+    width: 100%;
+    text-align: left;
+    font-size: 24px;
+    padding-left: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
-.nav a {
-    float: left;
-    display: block;
-    color: white;
+.topThree {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* justify-content + align-self makes subdivs centered */
+    width: 100%;
+}
+
+.card {
+    align-self: center;
+    padding-top: 5px;
+    margin: 0px 10px;
+    width: 30%;
+    font-size: 18px;
+    color: #3C9089;
     text-align: center;
-    padding: 14px 40px;
-    text-decoration: none;
-    font-size: 17px;
+    background-color: #DEDEDE;
+    transition: box-shadow 0.5s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
-.nav a:hover {
+.card:hover {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.complete {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #3C9089;
+}
+
+.complete:hover {
     background-color: #265a56;
-    color: white;
-
 }
 
-.nav .icon {
-    display: none;
+.complete a{
+    text-decoration: none;
+    color: #F7F7F7;
+}
+
+
+.edit {
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+    color: #F7F7F7;
+    background-color: #3C9089;
+    margin: 20px 10px;
+    /*transition: box-shadow 0.5s;*/
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);*/
+}
+.edit > a {
+    text-decoration: none;
+}
+
+.edit:hover {
+    background-color: #265a56;
+    /*box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);*/
 }
 
 
 
-@media screen and (max-width: 600px) {
-    .nav a:not(:first-child) {display: none;}
-    .nav a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 600px) {
-    .nav.responsive {position: relative;}
-    .nav.responsive a.icon {
-        position: absolute;
-        right: 0;
-        top: 0;
-  }
-
-    .nav.responsive a {
-        float: none;
-        display: block;
-        text-align: left;
-  }
-}
