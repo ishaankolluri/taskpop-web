@@ -4,11 +4,14 @@
 {% block css %}
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
 {% endblock %}
+{% block js %}
+{% end %}
 
 
 <!-- Lots of temporary, ungenerated content here. -->
 {% block content %}
     <div class="greeting">Good evening, User. Your top three priorities are below.</div>
+    <a href="{% url %}"<div class="create"></div>
 {#    <div>Good evening, {{ user.name }}. Your top three priorities are below.</div>#}
 
     <div class="topThree">
@@ -49,6 +52,5 @@
 
     </div>
     <a href="{% url 'taskpop:edit' %}"><div class="edit">Edit or Reprioritize Task List</div></a>
-
 
 {% endblock %}
