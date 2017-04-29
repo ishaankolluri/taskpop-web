@@ -2,9 +2,34 @@
 {% load static %}
 
 {% block css %}
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <link href="{% static 'css/edit.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/edit.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    TBD
+    <div class="editBar">
+        <div class="trash">
+
+        </div>
+    </div>
+    <!-- TODO: Make this a table with rows for tasks. Two columns. Possible header column for trash, etc.
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="checkContainer">
+                <input class="itemCheck" id="task_name" type="checkbox" value="{{ task.id }}">
+            </div>
+
+            <div class="itemContainer">
+                <div class="item">
+                    <span>Hi</span>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h1 class="title">You have no tasks available in your queue.</h1>
+    {% endif %}
 {% endblock %}

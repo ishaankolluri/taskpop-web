@@ -5,11 +5,14 @@
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+{% endblock %}
 
-<!-- Lots of temporary, ungenerated content here. -->
+<!-- Lots of temporary, static content here. -->
 {% block content %}
     <div class="greeting">Good evening, User. Your top three priorities are below.</div>
-    <a href="" class="circleButton"><img src="static/img/Button.png" onmouseover="this.src='static/img/Hover.png'" onmouseout="this.src='static/img/Button.png'"></a>
+    <a href="" id="create" class="circleButton"><img src="static/img/Button.png" onmouseover="this.src='static/img/Hover.png'" onmouseout="this.src='static/img/Button.png'"></a>
 {#    <div>Good evening, {{ user.name }}. Your top three priorities are below.</div>#}
 
     <div class="topThree">
@@ -50,5 +53,22 @@
 
     </div>
     <a href="{% url 'taskpop:edit' %}"><div class="edit">Edit or Reprioritize Task List</div></a>
+
+
+    <div id="createModal" class="modal">
+        <div class="modalContent">
+            <span id="close" class="closeModal">&times;</span>
+            <h2 class="title">Create New Task</h2>
+            <form action="" method="post">
+                <label class="formLabel" for="task_name">Task Name</label>
+                <input class="modalInput" id="task_name" type="text" name="your_name">
+                <label class="formLabel" for="task_date">Expected Deadline</label>
+                <input class="modalInput" id="task_date" type="datetime-local" name="task_date">
+                <input class="submitModal" type="submit" value="Create">
+
+            </form>
+        </div>
+
+    </div>
 
 {% endblock %}

@@ -41,6 +41,7 @@
 
 .complete:hover {
     background-color: #265a56;
+    cursor: pointer;
 }
 
 .complete a{
@@ -65,6 +66,7 @@
 
 .edit:hover {
     background-color: #265a56;
+    cursor: pointer;
     /*box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);*/
 }
 
@@ -75,3 +77,74 @@
 }
 
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
+}
+
+.modalContent {
+    background-color: #F7F7F7;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+}
+
+.closeModal {
+    color: #3C9089;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closeModal:hover, .closeModal:focus {
+    color: #265a56;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.title {
+    text-align: center;
+}
+
+.formLabel {
+    font-size: 20px;
+}
+
+.modalInput {
+    border:0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid #3C9089;
+    width: 100%;
+    /*border: 1px solid #3C9089;*/
+    box-sizing: border-box;
+    display: inline-block;
+    /*padding: 12px 20px;*/
+    margin: 10px 0;
+    font-family: Catamaran, sans-serif;
+    font-size: 16px;
+}
+
+
+
+.submitModal {
+    font-family: Catamaran, sans-serif;
+    font-size: 20px;
+    width: 100%;
+    background-color: #3C9089;
+    color: #F7F7F7;
+    border: none;
+}
+
+.submitModal:hover {
+    background-color: #265a56;
+    cursor: pointer;
+}

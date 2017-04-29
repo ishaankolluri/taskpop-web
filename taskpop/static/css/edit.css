@@ -1,0 +1,25 @@
+.checkContainer {
+    width: 10%;
+    border-bottom: 1px solid #3C9089;
+}
+
+.itemCheck {
+    float: left;
+    height: 40px;
+    width: 40px;
+    margin-left: 20px;
+    border: 1px solid #3C9089;
+    /*-moz-appearance:none;*/
+    /*-webkit-appearance:none;*/
+    /*-o-appearance:none;*/
+
+}
+
+.itemContainer {
+    float: right;
+    width: 90%;
+    padding-top: 10px;
+    border-bottom: 1px solid #3C9089;
+    /*margin: auto;*/
+
+}
