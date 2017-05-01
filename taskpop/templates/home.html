@@ -21,21 +21,21 @@
             <br>
             <span>4:30p.m. - December 25th, 2017</span>
             <br>
-            <div class="complete"><a href="#complete">Complete</a></div>
+            <div class="complete"><a href="{% url 'taskpop:complete' 1 %}">Complete</a></div>
         </div>
         <div class="card">
             <span>Task Name</span>
             <br>
             <span>4:30p.m. - December 25th, 2017</span>
             <br>
-            <div class="complete"><a href="#complete">Complete</a></div>
+            <div class="complete"><a href="{% url 'taskpop:complete' 1 %}">Complete</a></div>
         </div>
         <div class="card">
             <span>Task Name</span>
             <br>
             <span>4:30p.m. - December 25th, 2017</span>
             <br>
-            <div class="complete"><a href="#complete">Complete</a></div>
+            <div class="complete"><a href="{% url 'taskpop:complete' 1 %}">Complete</a></div>
         </div>
 {#        {% if not tasks %}#}
 {#            <div class="greeting">Good evening, {{ user }}. You don't have any pending tasks. Create one here!</div>#}
@@ -46,7 +46,7 @@
 {#                <br>#}
 {#                <span>{{ task.date }}</span>#}
 {#                <br>#}
-{#                <div><a href="#complete">Complete</a></div>#}
+{#                <div><a href="{% url 'taskpop:complete' {{ task.id }}  %}">Complete</a></div>#}
 {#            </div>#}
 {#        {% endfor %}#}
 {#        {% endif %}#}
@@ -59,7 +59,7 @@
         <div class="modalContent">
             <span id="close" class="closeModal">&times;</span>
             <h2 class="title">Create New Task</h2>
-            <form action="" method="post">
+            <form action="{% url 'taskpop:create' %}" method="post">{% csrf_token %}
                 <label class="formLabel" for="task_name">Task Name</label>
                 <input class="modalInput" id="task_name" type="text" name="your_name">
                 <label class="formLabel" for="task_date">Expected Deadline</label>

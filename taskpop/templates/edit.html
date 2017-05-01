@@ -10,25 +10,55 @@
 {% endblock %}
 
 {% block content %}
-    <div class="editBar">
-        <div class="trash">
-
-        </div>
+    <div class="trash">
+        <a href="" id="trashSelected"><img class="buttonimg" src="{% static 'img/Trash.png' %}"></a>
     </div>
-    <!-- TODO: Make this a table with rows for tasks. Two columns. Possible header column for trash, etc.
     {% if tasks %}
-        {% for task in tasks %}
-            <div class="checkContainer">
-                <input class="itemCheck" id="task_name" type="checkbox" value="{{ task.id }}">
-            </div>
+        <table>
+            <tr>
+                <th class="inputDelete">Select</th>
+                <th>Task</th>
+                <th class="blowup">Blow Up Task</th>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td class="inputDelete"><input type="checkbox" name="trashInput" value="{{ task.id }}"></td>
+                    <td id="{{ task.id }}" class="tableInfo">
+                        <p>{{ task.name }}</p>
+                        <p>{{ task.date }}</p>
+                    </td>
+                    <td class="blowup"><a href="{% url 'taskpop:blowup' task.id %}"><img src="{% static 'img/Bomb.png' %}"</a></td>
+                </tr>
 
-            <div class="itemContainer">
-                <div class="item">
-                    <span>Hi</span>
+                <div id="{{ task.id }}_modal" class="modal">
+                    <div class="modalContent">
+                        <span id="{{ task.id }}_close" class="closeModal">&times;</span>
+                        <h2 class="title">Edit Task</h2>
+                        <form action="{% url 'taskpop:save' task.id %}" method="post">{% csrf_token %}
+                            <label class="formLabel" for="task_name">Task Name</label>
+                            <input class="modalInput" id="task_name" type="text" name="your_name" value="{{ task.name }}">
+                            <label class="formLabel" for="task_date">Expected Deadline</label>
+                            <input class="modalInput" id="task_date" type="datetime-local" name="task_date" value="{{ task.date }}">
+                            <input class="submitModal" type="submit" value="Save">
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <br>
-        {% endfor %}
+
+                <script>
+                    $(function(){
+                       $("#{{ task.id }}").click(function(event){
+                          event.preventDefault();
+                          var modal = document.getElementById("{{ task.id }}_modal");
+                          modal.style.display = "block";
+                          $("#{{ task.id }}_close").click(function(event){
+                             modal.style.display = "none";
+                          });
+                       });
+                    });
+                </script>
+
+            {% endfor %}
+        </table>
     {% else %}
         <h1 class="title">You have no tasks available in your queue.</h1>
     {% endif %}
