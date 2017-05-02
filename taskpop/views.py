@@ -96,3 +96,8 @@ def delete(request):
     print json.loads(request.POST['json_data'])['tasks']
     # NOTE: This might not redirect because it calls back to the AJAX in JS.
     return HttpResponseRedirect(reverse('taskpop:edit'))
+
+
+def calendar(request):
+    print "Reached Here"
+    return render(request, 'calendar.html')

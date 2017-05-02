@@ -27,7 +27,7 @@
                         <p>{{ task.name }}</p>
                         <p>{{ task.date }}</p>
                     </td>
-                    <td class="blowup"><a href="{% url 'taskpop:blowup' task.id %}"><img src="{% static 'img/Bomb.png' %}"</a></td>
+                    <td class="blowup"><a href="{% url 'taskpop:blowup' task.id %}"><img src="{% static 'img/Bomb.png' %}"></a></td>
                 </tr>
 
                 <div id="{{ task.id }}_modal" class="modal">

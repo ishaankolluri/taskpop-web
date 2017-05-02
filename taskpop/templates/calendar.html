@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+      <link href="{% static 'css/cal.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+{% block content %}
+     <h1 style="font-size: 70px;text-align:center;color:#aaaaaa;"><img src="{% static 'img/calendar.png' %}" align="centre" height = 50px> Calendar </h1>
+
+
+    <table border='0'>
+        <tr>
+            <th >Date</th>
+            <th class ="inputTask"> Task</th>
+        </tr>
+        <tr>
+            <td class = "inputMonth"> March</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+
+            <td class = "inputDate"> 22nd</td>
+            <td class="tableNormal">
+                 <p>Finish Homework</p>
+                 <p>22nd March, 5:30 PM</p>
+             </td>
+        </tr>
+
+        <tr>
+            <td class = "inputDate"> </td>
+
+            <td class="tableBlowUp">
+                 <p>Finish ML Homework <img src="{% static 'img/Bomb.png' %}" align="right" ></p>
+                 <p>22nd March, 7:30 PM  </p>
+             </td>
+
+        </tr>
+
+         <tr>
+            <td class = "inputMonth"> April</td>
+            <td> </td>
+        </tr>
+
+        <tr>
+
+            <td class = "inputDate"> 1st</td>
+            <td class="tableNormal">
+                 <p>Finish Homework</p>
+                 <p>1s April, 5:30 PM</p>
+             </td>
+        </tr>
+
+        <tr>
+            <td class = "inputDate"> </td>
+
+            <td class="tableBlowUp">
+                 <p>Finish ML Homework <img src="{% static 'img/Bomb.png' %}" align="right" ></p>
+                 <p>1st April, 7:30 PM  </p>
+             </td>
+
+        </tr>
+
+         <tr>
+            <td class = "inputDate"> </td>
+
+            <td class="tableNormal">
+                 <p>Finish ML Homework</p>
+                 <p>1st March, 9:30 PM  </p>
+             </td>
+
+        </tr>
+
+
+
+
+
+
+    </table>
+
+
+{% endblock %}
