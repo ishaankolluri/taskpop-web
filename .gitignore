@@ -4,3 +4,8 @@ db.sqlite3
 *.pyc
 static/
 tp/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+env/

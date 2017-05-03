@@ -23,6 +23,12 @@ def session(request):
     return HttpResponse(status=204)
 
 
+def firsttimeuser(request):
+    username = request.POST['username']
+    tasks_create(username)
+    return HttpResponse(status=200)
+
+
 def login(request):
     return render(request, 'login.html')
 

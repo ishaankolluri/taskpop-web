@@ -26,7 +26,8 @@ SECRET_KEY = '=_%4c-jx%5ze)3f!y%7rybum40&@!m!-#f2a*rv604@sra#xz9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost'
+    'localhost',
+    'taskpop-env.usxnmpkm59.us-east-1.elasticbeanstalk.com',
 ]
 
 
