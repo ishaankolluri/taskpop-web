@@ -58,6 +58,7 @@ function loggedIn(profile, attributeList){
               type: "POST",
               url: "/session/",
               data: { username: cognitoUser.getUsername() },
+              success: console.log('session updated'),
               failure: function(data){
                 console.log("Did not update session: " + data);
               }
