@@ -16,10 +16,10 @@ function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
+//  console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  console.log(googleUser.getAuthResponse().id_token);
-  console.log(googleUser.getAuthResponse().id_token.length);
+//  console.log(googleUser.getAuthResponse().id_token);
+//  console.log(googleUser.getAuthResponse().id_token.length);
   var dataName = {
         Name: 'name',
         Value: profile.getName()
@@ -41,7 +41,7 @@ function loggedIn(profile, attributeList){
         Username: profile.getEmail(),
         Password: profile.getId()
     };
-    var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+    var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authentication_data);
     var userData = {
         Username: profile.getEmail(),
         Pool: userPool
@@ -50,10 +50,18 @@ function loggedIn(profile, attributeList){
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function(result){
             // Send access token and username to the 'loggedIn' endpoint
-            var access_token = result.getAccessToken.getJwtToken();
+            var access_token = result.getAccessToken().getJwtToken();
             var id_token = result.idToken.jwtToken;
             console.log("Logged In: " + cognitoUser.getUsername());
-            // TODO: use Username and access_token to get to home page.
+            $.ajax({
+              type: "POST",
+              url: "/session/",
+              data: { username: cognitoUser.getUsername() },
+              failure: function(data){
+                console.log("Did not update session: " + data);
+              }
+            });
+            window.location.assign('home');
         },
         onFailure: function(err){
             userPool.signUp(profile.getEmail(), profile.getId(), attributeList, null, function(err, result){
@@ -63,7 +71,23 @@ function loggedIn(profile, attributeList){
                 }
 //                cognitoUser = result.user;
                 console.log('Signed up: ' + cognitoUser.getUsername());
-                // TODO: Use username to get to home page.
+                $.ajax({
+                  type: "POST",
+                  url: "/session/",
+                  data: { username: cognitoUser.getUsername() },
+                  failure: function(data){
+                    console.log("Did not update session: " + data);
+                  }
+                });
+                $.ajax({
+                  type: "POST",
+                  url: "/firsttimeuser/",
+                  data: { username: cognitoUser.getUsername() },
+                  failure: function(data){
+                    console.log("Did not update username: " + data);
+                  }
+                });
+                window.location.assign('home');
             });
         },
     });
