@@ -34,8 +34,8 @@ def login(request):
 
 
 def home(request):
-    if 'username' not in request.session:
-        return HttpResponseRedirect(reverse('taskpop:login'))
+    # if 'username' not in request.session:
+    #     return HttpResponseRedirect(reverse('taskpop:login'))
     # TODO Query top three. Provide as context.
     username = request.session['username']
     return render(request, 'home.html', context={
