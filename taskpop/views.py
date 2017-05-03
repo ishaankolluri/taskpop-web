@@ -15,6 +15,7 @@ def deauth(request):
 
 @csrf_exempt
 def session(request):
+    print "auth session"
     current_user = request.POST['username']
     if current_user not in request.session:
         request.session['username'] = current_user
@@ -43,21 +44,21 @@ def edit(request):
     # TODO: Investigate the format of the task returned to Django from AWS.
     # Below is a sample task list. NOTE: This could be incorrect JSON.
     task_one = {
-        "id": 1,
+        "task_id": 1,
         "user": "Ishaan",
         "name": "Do the laundry",
         "date": "December 25th, 2017",
         "deadline": "5:30pm"
     }
     task_two = {
-        "id": 2,
+        "task_id": 2,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "December 25th, 2017",
         "deadline": "4:30pm"
     }
     task_three = {
-        "id": 3,
+        "task_id": 3,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "December 25th, 2017",
@@ -109,8 +110,8 @@ def blowup(request, task_id):
 
 
 @csrf_exempt
-def delete(request):
-    print "Hit delete"
-    print json.loads(request.POST['json_data'])['tasks']
+def delete(request, task_id):
+    print task_id
+    # print json.loads(request.POST['json_data'])['tasks']
     # NOTE: This might not redirect because it calls back to the AJAX in JS.
     return HttpResponseRedirect(reverse('taskpop:edit'))

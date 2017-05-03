@@ -53,6 +53,7 @@ function loggedIn(profile, attributeList){
             var access_token = result.getAccessToken().getJwtToken();
             var id_token = result.idToken.jwtToken;
             console.log("Logged In: " + cognitoUser.getUsername());
+            console.log("updating session params");
             $.ajax({
               type: "POST",
               url: "/session/",
