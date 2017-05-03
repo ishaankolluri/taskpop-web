@@ -3,11 +3,23 @@ from __future__ import unicode_literals
 
 import json
 
-from django.shortcuts import render, HttpResponseRedirect, reverse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
 from django.views.decorators.csrf import csrf_exempt
 
 
-# Create your views here.
+@csrf_exempt
+def deauth(request):
+    request.session['username'] = None
+    return HttpResponse(status=204)
+
+
+@csrf_exempt
+def session(request):
+    current_user = request.POST['username']
+    if current_user not in request.session:
+        request.session['username'] = current_user
+    print request.session['username']
+    return HttpResponse(status=204)
 
 
 def login(request):
@@ -15,7 +27,13 @@ def login(request):
 
 
 def home(request):
-    return render(request, 'home.html')
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('taskpop:login'))
+    # TODO Query top three. Provide as context.
+    username = request.session['username']
+    return render(request, 'home.html', context={
+        "username": username
+    })
 
 
 def edit(request):
@@ -59,7 +77,7 @@ def logout(request):
 
 
 def create(request):
-    print request.POST
+    print request.session['username']
     # TODO: Unpack the contents of the POST request
     # select what we need and pack into JSON
     # send JSON to dynamo /create_task/ endpoint
