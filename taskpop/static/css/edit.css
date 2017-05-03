@@ -58,6 +58,7 @@ table {
 
 .tableInfo {
     background-color: #EEEEEE;
+    color: #616161;
     text-align: left;
     padding-left: 20px;
     transition: box-shadow 0.5s;
