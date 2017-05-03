@@ -20,12 +20,12 @@ def _taskarchive_create(username):
     )
     return
 
-def tasks_create(username, first_name, last_name):
+def tasks_create(username):
     tasks.put_item(
        Item={
             'username': username,
-            'first_name': first_name,
-            'last_name': last_name,
+            'first_name': "",
+            'last_name': "",
             'created': datetime.utcnow().isoformat(),
             'multiplier': 1,
             'next_task_num': 1,

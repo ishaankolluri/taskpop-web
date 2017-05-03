@@ -79,6 +79,14 @@ function loggedIn(profile, attributeList){
                     console.log("Did not update session: " + data);
                   }
                 });
+                $.ajax({
+                  type: "POST",
+                  url: "/firsttimeuser/",
+                  data: { username: cognitoUser.getUsername() },
+                  failure: function(data){
+                    console.log("Did not update username: " + data);
+                  }
+                });
                 window.location.assign('home');
             });
         },
