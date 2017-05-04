@@ -126,3 +126,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_COOKIE_SECURE = False
