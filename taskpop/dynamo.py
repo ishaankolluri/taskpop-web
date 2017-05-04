@@ -6,7 +6,7 @@ import random
 from operator import attrgetter
 
 # Load all of the tables
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb',region_name='us-east-1')
 
 task = dynamodb.Table('task')
 tasks = dynamodb.Table('tasks')
