@@ -370,7 +370,6 @@ def _tasks_batch(username):
     
 def tasks_list(username, nitems = 0):
     tasks = _tasks_batch(username)
-    
     if nitems == 0 or nitems > len(tasks):
         return tasks
     else:

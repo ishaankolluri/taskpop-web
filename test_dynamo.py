@@ -2,7 +2,7 @@ from taskpop import dynamo
 from datetime import datetime
 import pprint
 
-username = 'lauritzen@gmail.com'
+username = 'lars@gmail.com'
 
 dynamo.tasks_create(username)
 print(dynamo.tasks_get(username))
@@ -94,6 +94,9 @@ print()
 dynamo.task_blowup(username, lower_task_id)
 print(dynamo.tasks_get(username))
 print(dynamo.task_get(username,6))
+
+dynamo.task_archive(username, 9, 9)
+dynamo.task_archive(username, 7, 7)
 
 #dynamo._tasks_batch(username)
 tasks = dynamo.tasks_list(username)
