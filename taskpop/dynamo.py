@@ -206,9 +206,17 @@ def _task_delete(username, task_id):
     )
     return
 
-def task_update_priority(username, task_id, higher_task_id, lower_task_id):
-    higher = task_get(username, higher_task_id)['adj_priority']
-    lower = task_get(username, lower_task_id)['adj_priority']
+def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 0):
+    if higher_task_id:
+        higher = task_get(username, higher_task_id)['adj_priority']
+    else:
+        higher = 5
+        
+    if lower_task_id:
+        lower = task_get(username, lower_task_id)['adj_priority']
+    else:
+        lower = 0
+        
     response = task.get_item(
         Key={
             'username': username,
@@ -218,7 +226,7 @@ def task_update_priority(username, task_id, higher_task_id, lower_task_id):
     res = response['Item']
     
     adj_priority = (higher + lower)/2
-        
+    
     task.put_item(
         Item={
             'username': username,
@@ -361,11 +369,12 @@ def _tasks_batch(username):
     return sorted(tasks, key=lambda task: task['adj_priority'], reverse=True)
     
 def tasks_list(username, nitems = 0):
-    if nitems == 0:
-        tasks = _tasks_batch(username)
+    tasks = _tasks_batch(username)
+    
+    if nitems == 0 or nitems > len(tasks):
+        return tasks
     else:
-        tasks = _tasks_batch(username)[0:nitems]
-    return tasks 
+        return tasks[0:nitems]
 
     
 def taskarchive_get(username):
