@@ -38,8 +38,13 @@ def login(request):
 def home(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
-    # TODO Query top three. Provide as context.
     username = request.session['username']
+    
+    # TODO Query top three. Provide as context.
+    
+    # tasks = dynamo.tasks_list(username, 3)
+    
+    
     return render(request, 'home.html', context={
         "username": username
     })
@@ -51,6 +56,11 @@ def edit(request):
     # TODO: Build the task list and pass it to edit.html.
     # TODO: Investigate the format of the task returned to Django from AWS.
     # Below is a sample task list. NOTE: This could be incorrect JSON.
+    
+    
+    # tasks = dynamo.tasks_list(username)
+    
+    
     task_one = {
         "task_id": 1,
         "user": "Ishaan",
@@ -91,6 +101,17 @@ def create(request):
     # select what we need and pack into JSON
     # send JSON to dynamo /create_task/ endpoint
     # upon successful POST, redirect to home.
+    
+    username = request.POST['username']
+    #task = {
+    #    'ud_priority': # int 0-4,
+    #    'ud_time': # int in hours,
+    #    'deadline': # date time in ISO FORMAT,
+    #    'item': String,
+    #    'description': String
+    #} 
+    # dynamo.task_new(username, task)
+
 
     return HttpResponseRedirect(reverse('taskpop:home'))
 
@@ -101,6 +122,9 @@ def complete(request, task_id):
     # TODO: Send a 'complete_task' request to Dynamo for this task_id
     # TODO: Lambda will do any other calculations.
 
+    # dynamo.task_archive(username, task_id, completed_time):
+
+
     return HttpResponseRedirect(reverse('taskpop:home'))
 
 
@@ -108,12 +132,30 @@ def save(request, task_id):
     print task_id
     print request.POST
     # TODO: update the task at task_id with the contents of request.POST
+
+
+    username = request.POST['username']
+    #task = {
+    #    'ud_priority': # int 0-4,
+    #    'ud_time': # int in hours,
+    #    'deadline': # date time in ISO FORMAT,
+    #    'item': String,
+    #    'description': String
+    #}     
+    # dynamo.task_update(username, task_id, task)
+    
+    
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
 def blowup(request, task_id):
     # TODO: new page for blowup.
     print task_id
+    
+    username = request.POST['username']
+    #dynamo.task_blowup(username, task_id)
+    
+    
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
@@ -122,4 +164,7 @@ def delete(request, task_id):
     print task_id
     # print json.loads(request.POST['json_data'])['tasks']
     # NOTE: This might not redirect because it calls back to the AJAX in JS.
+    
+    #dynamo.task_remove(username, task_id)
+    
     return HttpResponseRedirect(reverse('taskpop:edit'))
