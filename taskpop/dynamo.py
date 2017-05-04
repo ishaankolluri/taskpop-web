@@ -2,6 +2,8 @@ import boto3
 from datetime import datetime
 from decimal import *
 import json
+import random
+from operator import attrgetter
 
 # Load all of the tables
 dynamodb = boto3.resource('dynamodb')
@@ -24,8 +26,8 @@ def tasks_create(username):
     tasks.put_item(
        Item={
             'username': username,
-            'first_name': "",
-            'last_name': "",
+            'first_name': " ",
+            'last_name': " ",
             'created': datetime.utcnow().isoformat(),
             'multiplier': 1,
             'next_task_num': 1,
@@ -204,9 +206,17 @@ def _task_delete(username, task_id):
     )
     return
 
-def task_update_priority(username, task_id, higher_task_id, lower_task_id):
-    higher = task_get(username, higher_task_id)['adj_priority']
-    lower = task_get(username, lower_task_id)['adj_priority']
+def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 0):
+    if higher_task_id:
+        higher = task_get(username, higher_task_id)['adj_priority']
+    else:
+        higher = 5
+        
+    if lower_task_id:
+        lower = task_get(username, lower_task_id)['adj_priority']
+    else:
+        lower = 0
+        
     response = task.get_item(
         Key={
             'username': username,
@@ -216,7 +226,7 @@ def task_update_priority(username, task_id, higher_task_id, lower_task_id):
     res = response['Item']
     
     adj_priority = (higher + lower)/2
-        
+    
     task.put_item(
         Item={
             'username': username,
@@ -312,11 +322,58 @@ def task_archive(username, task_id, completed_time):
     return
     
     
-def task_blowup(username, task_id):
-    pass
-    
+def task_blowup(username, task_id, ntasks = 4):
+    weight = .01
+    parent = task_get(username, task_id)
+    task_remove(username, task_id)
+    for i in range(ntasks):
+        task_id = _tasks_update_new_task(username)
+        
+        offset = weight * ( (ntasks-1-i) + random.random())
+        #print(offset)
+        task.put_item(
+            Item={
+                'username': username,
+                'task_id': task_id,
+                'created': parent['created'],
+                'modified': datetime.utcnow().isoformat(),
+                'finished': datetime.utcnow().isoformat(),
+                'comp_time': 0,
+                'adj_priority': Decimal(parent['ud_priority'])+Decimal(offset),
+                'ud_priority': parent['ud_priority'],
+                'ud_time': Decimal(parent['ud_time']/ntasks),
+                'deadline': parent['deadline'],
+                'item': parent['item']+' - Part 1',
+                'description': parent['description']  
+            }
+        )
+    return
 
+def _tasks_batch(username):
+    task_id_list = tasks_get(username)['tasks']
+    key_list = [];
+    for task_id in task_id_list:
+        key_term = {'username': username, 'task_id': task_id}
+        key_list.append(key_term)
+        
+    response = dynamodb.batch_get_item(
+        RequestItems={
+            'task': {
+                'Keys': key_list,
+            }
+        }
+    )
     
+    
+    tasks = response['Responses']['task']
+    return sorted(tasks, key=lambda task: task['adj_priority'], reverse=True)
+    
+def tasks_list(username, nitems = 0):
+    tasks = _tasks_batch(username)
+    if nitems == 0 or nitems > len(tasks):
+        return tasks
+    else:
+        return tasks[0:nitems]
 
     
 def taskarchive_get(username):
