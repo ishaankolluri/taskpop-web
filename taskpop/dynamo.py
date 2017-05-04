@@ -2,6 +2,8 @@ import boto3
 from datetime import datetime
 from decimal import *
 import json
+import random
+from operator import attrgetter
 
 # Load all of the tables
 dynamodb = boto3.resource('dynamodb')
@@ -24,8 +26,8 @@ def tasks_create(username):
     tasks.put_item(
        Item={
             'username': username,
-            'first_name': "",
-            'last_name': "",
+            'first_name': " ",
+            'last_name': " ",
             'created': datetime.utcnow().isoformat(),
             'multiplier': 1,
             'next_task_num': 1,
@@ -312,11 +314,58 @@ def task_archive(username, task_id, completed_time):
     return
     
     
-def task_blowup(username, task_id):
-    pass
-    
+def task_blowup(username, task_id, ntasks = 4):
+    weight = .01
+    parent = task_get(username, task_id)
+    task_remove(username, task_id)
+    for i in range(ntasks):
+        task_id = _tasks_update_new_task(username)
+        
+        offset = weight * ( (ntasks-1-i) + random.random())
+        #print(offset)
+        task.put_item(
+            Item={
+                'username': username,
+                'task_id': task_id,
+                'created': parent['created'],
+                'modified': datetime.utcnow().isoformat(),
+                'finished': datetime.utcnow().isoformat(),
+                'comp_time': 0,
+                'adj_priority': Decimal(parent['ud_priority'])+Decimal(offset),
+                'ud_priority': parent['ud_priority'],
+                'ud_time': Decimal(parent['ud_time']/ntasks),
+                'deadline': parent['deadline'],
+                'item': parent['item']+' - Part 1',
+                'description': parent['description']  
+            }
+        )
+    return
 
+def _tasks_batch(username):
+    task_id_list = tasks_get(username)['tasks']
+    key_list = [];
+    for task_id in task_id_list:
+        key_term = {'username': username, 'task_id': task_id}
+        key_list.append(key_term)
+        
+    response = dynamodb.batch_get_item(
+        RequestItems={
+            'task': {
+                'Keys': key_list,
+            }
+        }
+    )
     
+    
+    tasks = response['Responses']['task']
+    return sorted(tasks, key=lambda task: task['adj_priority'], reverse=True)
+    
+def tasks_list(username, nitems = 0):
+    if nitems == 0:
+        tasks = _tasks_batch(username)
+    else:
+        tasks = _tasks_batch(username)[0:nitems]
+    return tasks 
 
     
 def taskarchive_get(username):
