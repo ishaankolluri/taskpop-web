@@ -106,42 +106,48 @@ def calendar(request):
         "user": "Ishaan",
         "name": "Do the laundry",
         "date": "12/25/2017",
-        "deadline": "5:30"
+        "deadline": "5:30",
+        "blownup": True
     }
     task_two = {
         "id": 2,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "12/25/2017",
-        "deadline": "4:30"
+        "deadline": "4:30",
+        "blownup": True
     }
     task_three = {
         "id": 3,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "12/27/2017",
-        "deadline": "4:30"
+        "deadline": "4:30",
+        "blownup": False
     }
     task_four = {
         "id": 4,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "2/25/2017",
-        "deadline": "4:30"
+        "deadline": "4:30",
+        "blownup": True
     }
     task_five = {
         "id": 5,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "2/25/2017",
-        "deadline": "4:30"
+        "deadline": "4:30",
+        "blownup": True
     }
     task_six = {
         "id": 6,
         "user": "Ishaan",
         "name": "Assignment 7",
         "date": "1/25/2017",
-        "deadline": "4:30"
+        "deadline": "4:30",
+        "blownup": False
     }
     task1 = [task_one, task_two,task_three,task_four,task_five, task_six]
     task1 = sort_date(task1)
