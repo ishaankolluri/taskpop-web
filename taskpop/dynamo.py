@@ -6,11 +6,12 @@ import random
 from operator import attrgetter
 
 # Load all of the tables
-dynamodb = boto3.resource('dynamodb',region_name='us-east-1')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
 task = dynamodb.Table('task')
 tasks = dynamodb.Table('tasks')
 tasksarchive = dynamodb.Table('tasksarchive')
+
 
 def _taskarchive_create(username):
     tasksarchive.put_item(
@@ -21,6 +22,7 @@ def _taskarchive_create(username):
         }
     )
     return
+
 
 def tasks_create(username):
     tasks.put_item(
@@ -38,7 +40,8 @@ def tasks_create(username):
     _taskarchive_create(username)
     
     return
-    
+
+
 def tasks_get(username):
     response = tasks.get_item(
         Key={
@@ -56,6 +59,7 @@ def _tasks_get_next_task_num(username):
     )
     return response['Item']['next_task_num']
 '''
+
 
 def _tasks_update_new_task(username):
     # Returns the task_id that should be added.  Ensures tasks are added sequentially.s
@@ -83,7 +87,8 @@ def _tasks_update_new_task(username):
         }
     )
     return task_id
-    
+
+
 def _tasks_update_remove_task(username, task_id):
     response = tasks.get_item(
         Key={
@@ -105,25 +110,29 @@ def _tasks_update_remove_task(username, task_id):
         }
     )
     return
-    
+
+
 def _taskarchive_delete(username):
     tasksarchive.delete_item(
         Key={
             'username': username,
         }
     )
-    
+
+
 def _tasks_delete(username):
     tasks.delete_item(
         Key={
             'username': username,
         }
     )
-      
+
+
 def user_delete(username):
     # Destroy all tasks everywhere
     pass
     
+
 
 def task_new(username, taskarg):
     """
@@ -155,6 +164,7 @@ def task_new(username, taskarg):
     )
     return task_id
 
+
 def task_get(username, task_id):
     response = task.get_item(
         Key={
@@ -163,7 +173,8 @@ def task_get(username, task_id):
         }
     )
     return response['Item']
-    
+
+
 def task_update(username, task_id, taskarg):
     # Just overwrite the values.  Have Django get into a form then push the whole things back in.
     response = task.get_item(
@@ -196,7 +207,8 @@ def task_update(username, task_id, taskarg):
         }
     )
     return
-    
+
+
 def _task_delete(username, task_id):
     task.delete_item(
         Key={
@@ -205,6 +217,7 @@ def _task_delete(username, task_id):
         }
     )
     return
+
 
 def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 0):
     if higher_task_id:
@@ -243,7 +256,8 @@ def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 
             'description': res['description']  
         }
     )
-    
+
+
 def _task_close(username, task_id, completed_time):
     task.update_item(
         Key={
@@ -280,7 +294,8 @@ def _tasksarchive_update_remove_task(username, task_id):
         }
     )
     return
-    
+
+
 def _taskarchive_update_add_task(username, task_id):
      # Returns the task_id that should be added.  Ensures tasks are added sequentially.s
     response = tasksarchive.get_item(
@@ -314,7 +329,8 @@ def task_remove(username, task_id):
         _tasksarchive_update_remove_task(username, task_id)
     _task_delete(username, task_id)
     return
-    
+
+
 def task_archive(username, task_id, completed_time):
     _tasks_update_remove_task(username, task_id)
     _taskarchive_update_add_task(username, task_id)
@@ -349,6 +365,7 @@ def task_blowup(username, task_id, ntasks = 4):
         )
     return
 
+
 def _tasks_batch(username):
     task_id_list = tasks_get(username)['tasks']
     key_list = [];
@@ -367,7 +384,8 @@ def _tasks_batch(username):
     
     tasks = response['Responses']['task']
     return sorted(tasks, key=lambda task: task['adj_priority'], reverse=True)
-    
+
+
 def tasks_list(username, nitems = 0):
     tasks = _tasks_batch(username)
     if nitems == 0 or nitems > len(tasks):

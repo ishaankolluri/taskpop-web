@@ -18,8 +18,8 @@
             {% for task in tasks %}
                 <tr>
                     <td id="{{ task.task_id }}" class="tableInfo">
-                        <p>{{ task.name }}</p>
-                        <p>{{ task.date }}</p>
+                        <p>{{ task.item }}</p>
+                        <p>{{ task.deadline }}</p>
                     </td>
                 </tr>
 
@@ -32,10 +32,34 @@
                         </div>
                         <div class="titleContainer"><h2 class="title">Edit Task</h2></div>
                         <form action="{% url 'taskpop:save' task.task_id %}" method="post">{% csrf_token %}
-                            <label class="formLabel" for="task_name">Task Name</label>
-                            <input class="modalInput" id="task_name" type="text" name="your_name" value="{{ task.name }}">
-                            <label class="formLabel" for="task_date">Expected Deadline</label>
-                            <input class="modalInput" id="task_date" type="datetime-local" name="task_date" value="{{ task.date }}">
+                            <label class="formLabel" for="name">Task Name</label>
+                            <input class="modalInput" id="name" type="text" name="name" value="{{ task.item }}">
+                            <label class="formLabel" for="deadline">Expected Deadline</label>
+                            <input class="modalInput" id="deadline" type="datetime-local" name="deadline" value="{{ task.deadline }}">
+                            <label class="formLabel" for="time">Hours:</label>
+                            <input class="modalInput" id="time" min=1 type="number" name="time" value="{{ task.ud_time }}">
+                            <label class="formLabel" for="description">Description</label>
+                            <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
+                            {% if task.ud_priority == 4 %}
+                            <input type="radio" name="priority" value=4 checked>Urgent<br>
+                            {% else %}
+                            <input type="radio" name="priority" value=4 >Urgent<br>
+                            {% endif %}
+                            {% if task.ud_priority == 3 %}
+                            <input type="radio" name="priority" value=3 checked>Soon<br>
+                            {% else %}
+                            <input type="radio" name="priority" value=3 >Soon<br>
+                            {% endif %}
+                            {% if task.ud_priority == 2 %}
+                            <input type="radio" name="priority" value=2 checked>Later<br>
+                            {% else %}
+                            <input type="radio" name="priority" value=2 >Later<br>
+                            {% endif %}
+                            {% if task.ud_priority == 1 %}
+                            <input type="radio" name="priority" value=1 checked>Not Important<br>
+                            {% else %}
+                            <input type="radio" name="prior3ity" value=1 >Not Important<br>
+                            {% endif %}
                             <input class="submitModal" type="submit" value="Save">
                         </form>
                     </div>

@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^delete/(?P<task_id>\d+)/', views.delete, name="delete"),
     url(r'^session', views.session, name="session"),
     url(r'^deauth', views.deauth, name="deauth"),
+    url(r'^firsttimeuser', views.firsttimeuser, name="firsttimeuser"),
 ]
