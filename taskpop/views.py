@@ -99,62 +99,70 @@ def delete(request):
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
-# Sends the Tasks in sorted format to calendar.htmls
+# Sends the Tasks in sorted format to calendar.html
 def calendar(request):
     task_one = {
-        "id": 1,
-        "user": "Ishaan",
-        "name": "Do the laundry",
-        "date": "12/25/2017",
-        "deadline": "5:30",
-        "blownup": True
+        "task_id": 1,
+        "item": "Do the laundry",
+        "deadline": "2017-12-30",  # TODO: This needs to be decoded.
+        "time": "5:30pm",
+        "description": "Sample Description 1",
+        "ud_priority": 4,
+        "ud_time": 7,
     }
+
     task_two = {
-        "id": 2,
-        "user": "Ishaan",
-        "name": "Assignment 7",
-        "date": "12/25/2017",
-        "deadline": "4:30",
-        "blownup": True
+        "task_id": 1,
+        "item": "Do the laundry",
+        "deadline": "2017-12-30",  # TODO: This needs to be decoded.
+        "time": "5:30pm",
+        "description": "Sample Description 1",
+        "ud_priority": 4,
+        "ud_time": 7,
     }
     task_three = {
-        "id": 3,
-        "user": "Ishaan",
-        "name": "Assignment 7",
-        "date": "12/27/2017",
-        "deadline": "4:30",
-        "blownup": False
+        "task_id": 1,
+        "item": "Do the laundry",
+        "deadline": "2017-11-30",  # TODO: This needs to be decoded.
+        "time": "6:30pm",
+        "description": "Sample Description 1",
+        "ud_priority": 4,
+        "ud_time": 7,
     }
     task_four = {
-        "id": 4,
-        "user": "Ishaan",
-        "name": "Assignment 7",
-        "date": "2/25/2017",
-        "deadline": "4:30",
-        "blownup": True
+        "task_id": 1,
+        "item": "Do the laundry",
+        "deadline": "2017-12-28",  # TODO: This needs to be decoded.
+        "time": "5:30pm",
+        "description": "Sample Description 1",
+        "ud_priority": 4,
+        "ud_time": 7,
     }
     task_five = {
-        "id": 5,
-        "user": "Ishaan",
-        "name": "Assignment 7",
-        "date": "2/25/2017",
-        "deadline": "4:30",
-        "blownup": True
+        "task_id": 1,
+        "item": "Do the laundry",
+        "deadline": "2017-11-30",  # TODO: This needs to be decoded.
+        "time": "7:30pm",
+        "description": "Sample Description 1",
+        "ud_priority": 4,
+        "ud_time": 7,
     }
     task_six = {
-        "id": 6,
-        "user": "Ishaan",
-        "name": "Assignment 7",
-        "date": "1/25/2017",
-        "deadline": "4:30",
-        "blownup": False
+        "task_id": 1,
+        "item": "Do the laundry",
+        "deadline": "2017-1-15",  # TODO: This needs to be decoded.
+        "time": "5:30pm",
+        "description": "Sample Description 1",
+        "ud_priority": 4,
+        "ud_time": 7,
     }
+
     task1 = [task_one, task_two,task_three,task_four,task_five, task_six]
     task1 = sort_date(task1)
     task1 = sort_time(task1)
     task_dict = {}
     for t in task1:
-        month = getMonth(t["date"].split("/")[0])
+        month = getMonth(t["deadline"].split("-")[1])
         if month in task_dict:
             task_dict[month].append(t)
         else:
@@ -169,8 +177,8 @@ def sort_date(list_task):
         currentvalue = list_task[index]
         position = index
 
-        while position > 0 and int(list_task[position - 1]["date"].split("/")[0]) > int(
-                currentvalue["date"].split("/")[0]):
+        while position > 0 and int(list_task[position - 1]["deadline"].split("-")[1]) > int(
+                currentvalue["deadline"].split("-")[1]):
             list_task[position] = list_task[position - 1]
             position = position - 1
 
@@ -181,15 +189,16 @@ def sort_time(list_task):
     for position in range(1, len(list_task)):
         currentvalue = list_task[position]
 
-        if ((int(list_task[position - 1]["date"].split("/")[0]) == int(currentvalue["date"].split("/")[0])) and (
-            int(list_task[position - 1]["date"].split("/")[1]) == int(currentvalue["date"].split("/")[1]))):
-            if int(list_task[position - 1]["deadline"].split(":")[0]) > int(currentvalue["deadline"].split(":")[0]):
+        if ((int(list_task[position - 1]["deadline"].split("-")[1]) == int(currentvalue["deadline"].split("-")[1])) and (
+            int(list_task[position - 1]["deadline"].split("-")[2]) == int(currentvalue["deadline"].split("-")[2]))):
+            if int(list_task[position - 1]["time"].split(":")[0]) > int(currentvalue["time"].split(":")[0]):
                 temp = list_task[position]
                 list_task[position] = list_task[position - 1]
                 list_task[position - 1] = temp
-            elif (int(list_task[position - 1]["deadline"].split(":")[0]) == int(currentvalue["deadline"].split(":")[0])):
-                if (int(list_task[position - 1]["deadline"].split(":")[1]) > int(
-                        currentvalue["deadline"].split(":")[1])):
+            elif (int(list_task[position - 1]["time"].split(":")[0]) == int(currentvalue["time"].split(":")[0])):
+
+                if (int(list_task[position - 1]["time"].split(":")[1][0]+list_task[position - 1]["time"].split(":")[1][1]) > int(
+                        currentvalue["time"].split(":")[1][0] +currentvalue["time"].split(":")[1][1] )):
                     temp = list_task[position]
                     list_task[position] = list_task[position - 1]
                     list_task[position - 1] = temp
@@ -198,6 +207,15 @@ def sort_time(list_task):
 #Convert Numbers to month format
 def getMonth(month):
     return datetime.date(1900, int(month), 1).strftime('%B')
+#  Information Page - settings.html
+def settings(request):
+    return render(request,'settings.html')
+
+
+
+
+
+
 
 
 

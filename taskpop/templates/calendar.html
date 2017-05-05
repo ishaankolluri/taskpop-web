@@ -27,32 +27,16 @@
             </tr>
 
             {% for v in values %}
+                <tr>
+                    <td class = "inputDate">{{t.date}}</td>
+                    <td class="tableNormal">
+                        <p>{{v.item}}</t></p>
+                        <p>{{v.description}}</p>
+                        <p>DATE:&nbsp;{{v.deadline }}&nbsp;&nbsp; TIME:&nbsp;{{v.time}}&nbsp;&nbsp;&nbsp;&nbsp;EXPECTED TIME:&nbsp;</t></p>
 
+                    </td>
+                </tr>
 
-
-                {%if v.blownup %}
-
-
-                    <tr>
-                        <td class = "inputDate">{{t.date}}</td>
-                        <td class="tableNormal">
-                            <p>{{v.name}}</t></p>
-                            <p>DATE:&nbsp;{{v.date }}&nbsp;&nbsp; TIME:&nbsp;{{v.deadline}}&nbsp;&nbsp;&nbsp;&nbsp;EXPECTED TIME:&nbsp;</t></p>
-
-                        </td>
-                     </tr>
-                {%else%}
-
-                    <tr>
-                        <td class = "inputDate">{{t.date}}</td>
-                        <td class="tableBlowUp">
-                            <p>{{v.name}} <img src="{% static 'img/Bomb.png' %}" align="right" ></p>
-                            <p>DATE:&nbsp;{{v.date }}&nbsp;&nbsp; TIME:&nbsp;{{v.deadline}}&nbsp;&nbsp;&nbsp;&nbsp;EXPECTED TIME:&nbsp;</t></p>
-
-                        </td>
-                     </tr>
-
-                {%endif%}
             {%endfor%}
         {%endfor%}
 

@@ -9,13 +9,28 @@
     padding-left: 60px;
 }
 
-#trashSelected {
+.trashSelected {
     display: block;
+    width: 50%;
+    float: left;
+    margin: 0px;
+}
+
+.blowupLogo {
+    display: block;
+    width: 50%;
+    float: right;
+    margin: 0px;
 }
 
 
+.titleContainer {
+    width:100%;
+}
+
 .buttonimg {
     cursor: pointer;
+    margin-right: 100px;
 }
 
 td {
@@ -58,6 +73,7 @@ table {
 
 .tableInfo {
     background-color: #EEEEEE;
+    color: #616161;
     text-align: left;
     padding-left: 20px;
     transition: box-shadow 0.5s;

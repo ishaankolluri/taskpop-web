@@ -10,53 +10,76 @@
 {% endblock %}
 
 {% block content %}
-    <div class="trash">
-        <a href="" id="trashSelected"><img class="buttonimg" src="{% static 'img/Trash.png' %}"></a>
-    </div>
     {% if tasks %}
         <table>
             <tr>
-                <th class="inputDelete">Select</th>
                 <th>Task</th>
-                <th class="blowup">Blow Up Task</th>
             </tr>
             {% for task in tasks %}
                 <tr>
-                    <td class="inputDelete"><input type="checkbox" name="trashInput" value="{{ task.id }}"></td>
-                    <td id="{{ task.id }}" class="tableInfo">
-                        <p>{{ task.name }}</p>
-                        <p>{{ task.date }}</p>
+                    <td id="{{ task.task_id }}" class="tableInfo">
+                        <p>{{ task.item }}</p>
+                        <p>{{ task.deadline }}</p>
                     </td>
+<<<<<<< HEAD
                     <td class="blowup"><a href="{% url 'taskpop:blowup' task.id %}"><img src="{% static 'img/Bomb.png' %}"></a></td>
+=======
+>>>>>>> ishaankolluri/master
                 </tr>
 
-                <div id="{{ task.id }}_modal" class="modal">
+                <div id="{{ task.task_id }}_modal" class="modal">
                     <div class="modalContent">
-                        <span id="{{ task.id }}_close" class="closeModal">&times;</span>
-                        <h2 class="title">Edit Task</h2>
-                        <form action="{% url 'taskpop:save' task.id %}" method="post">{% csrf_token %}
-                            <label class="formLabel" for="task_name">Task Name</label>
-                            <input class="modalInput" id="task_name" type="text" name="your_name" value="{{ task.name }}">
-                            <label class="formLabel" for="task_date">Expected Deadline</label>
-                            <input class="modalInput" id="task_date" type="datetime-local" name="task_date" value="{{ task.date }}">
+                        <span id="{{ task.task_id }}_close" class="closeModal">&times;</span>
+                        <div class="buttons">
+                            <a href="{% url 'taskpop:delete' task.task_id %}"><img class="buttonimg" src="{% static 'img/Trash.png' %}"></a>
+                            <a href="{% url 'taskpop:blowup' task.task_id %}"><img src="{% static 'img/Bomb.png' %}"></a>
+                        </div>
+                        <div class="titleContainer"><h2 class="title">Edit Task</h2></div>
+                        <form action="{% url 'taskpop:save' task.task_id %}" method="post">{% csrf_token %}
+                            <label class="formLabel" for="name">Task Name</label>
+                            <input class="modalInput" id="name" type="text" name="name" value="{{ task.item }}">
+                            <label class="formLabel" for="deadline">Expected Deadline</label>
+                            <input class="modalInput" id="deadline" type="datetime-local" name="deadline" value="{{ task.deadline }}">
+                            <label class="formLabel" for="time">Hours:</label>
+                            <input class="modalInput" id="time" min=1 type="number" name="time" value="{{ task.ud_time }}">
+                            <label class="formLabel" for="description">Description</label>
+                            <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
+                            {% if task.ud_priority == 4 %}
+                            <input type="radio" name="priority" value=4 checked>Urgent<br>
+                            {% else %}
+                            <input type="radio" name="priority" value=4 >Urgent<br>
+                            {% endif %}
+                            {% if task.ud_priority == 3 %}
+                            <input type="radio" name="priority" value=3 checked>Soon<br>
+                            {% else %}
+                            <input type="radio" name="priority" value=3 >Soon<br>
+                            {% endif %}
+                            {% if task.ud_priority == 2 %}
+                            <input type="radio" name="priority" value=2 checked>Later<br>
+                            {% else %}
+                            <input type="radio" name="priority" value=2 >Later<br>
+                            {% endif %}
+                            {% if task.ud_priority == 1 %}
+                            <input type="radio" name="priority" value=1 checked>Not Important<br>
+                            {% else %}
+                            <input type="radio" name="prior3ity" value=1 >Not Important<br>
+                            {% endif %}
                             <input class="submitModal" type="submit" value="Save">
                         </form>
                     </div>
                 </div>
-
                 <script>
                     $(function(){
-                       $("#{{ task.id }}").click(function(event){
+                       $("#{{ task.task_id }}").click(function(event){
                           event.preventDefault();
-                          var modal = document.getElementById("{{ task.id }}_modal");
+                          var modal = document.getElementById("{{ task.task_id }}_modal");
                           modal.style.display = "block";
-                          $("#{{ task.id }}_close").click(function(event){
+                          $("#{{ task.task_id }}_close").click(function(event){
                              modal.style.display = "none";
                           });
                        });
                     });
                 </script>
-
             {% endfor %}
         </table>
     {% else %}

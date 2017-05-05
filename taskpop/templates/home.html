@@ -11,45 +11,49 @@
 
 <!-- Lots of temporary, static content here. -->
 {% block content %}
-    <div class="greeting">Good evening, User. Your top three priorities are below.</div>
+    <div class="greeting">Good evening, {{ username }}. Your top three priorities are below.</div>
     <a href="" id="create" class="circleButton"><img src="static/img/Button.png" onmouseover="this.src='static/img/Hover.png'" onmouseout="this.src='static/img/Button.png'"></a>
-{#    <div>Good evening, {{ user.name }}. Your top three priorities are below.</div>#}
+
 
     <div class="topThree">
-        <div class="card">
-            <span>Task Name</span>
-            <br>
-            <span>4:30p.m. - December 25th, 2017</span>
-            <br>
-            <div class="complete"><a href="{% url 'taskpop:complete' 1 %}">Complete</a></div>
-        </div>
-        <div class="card">
-            <span>Task Name</span>
-            <br>
-            <span>4:30p.m. - December 25th, 2017</span>
-            <br>
-            <div class="complete"><a href="{% url 'taskpop:complete' 1 %}">Complete</a></div>
-        </div>
-        <div class="card">
-            <span>Task Name</span>
-            <br>
-            <span>4:30p.m. - December 25th, 2017</span>
-            <br>
-            <div class="complete"><a href="{% url 'taskpop:complete' 1 %}">Complete</a></div>
-        </div>
-{#        {% if not tasks %}#}
-{#            <div class="greeting">Good evening, {{ user }}. You don't have any pending tasks. Create one here!</div>#}
-{#        {% else %}#}
-{#        {% for task in tasks %}#}
-{#            <div class="card">#}
-{#                <span>{{ task.name }}</span>#}
-{#                <br>#}
-{#                <span>{{ task.date }}</span>#}
-{#                <br>#}
-{#                <div><a href="{% url 'taskpop:complete' {{ task.id }}  %}">Complete</a></div>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#        {% endif %}#}
+        {% if not tasks %}
+            <div class="greeting">Good evening, {{ user }}. You don't have any pending tasks. Create one here!</div>
+        {% else %}
+        {% for task in tasks %}
+            <div class="card">
+                <span>{{ task.item }}</span>
+                <br>
+                <span>{{ task.deadline }}</span>
+                <br>
+                <div id="{{ task.task_id }}" class="complete"><a href="{% url 'taskpop:complete' task.task_id %}">Complete</a></div>
+            </div>
+
+            <div id="{{ task.task_id }}_modal" class="modal">
+                <div class="modalContent">
+                    <span id="{{ task.task_id }}_close" class="closeModal">&times;</span>
+                    <h2 class="title"><u>Completing:</u> {{ task.name }}</h2>
+                    <form action="{% url 'taskpop:complete' task.task_id %}" method="post">{% csrf_token %}
+                        <h3 class="title">How long did it take for you to complete this task?</h3>
+                        <label class="formLabel" for="task_duration">Hours:</label>
+                        <input class="modalInput" id="task_duration" min=1 value=1 type="number" name="task_duration">
+                        <input class="submitModal" type="submit" value="Complete">
+                    </form>
+                </div>
+            </div>
+            <script>
+                $(function(){
+                   $("#{{ task.task_id }}").click(function(event){
+                      event.preventDefault();
+                      var modal = document.getElementById("{{ task.task_id }}_modal");
+                      modal.style.display = "block";
+                      $("#{{ task.task_id }}_close").click(function(event){
+                         modal.style.display = "none";
+                      });
+                   });
+                });
+            </script>
+        {% endfor %}
+        {% endif %}
 
     </div>
     <a href="{% url 'taskpop:edit' %}"><div class="edit">Edit or Reprioritize Task List</div></a>
@@ -60,10 +64,18 @@
             <span id="close" class="closeModal">&times;</span>
             <h2 class="title">Create New Task</h2>
             <form action="{% url 'taskpop:create' %}" method="post">{% csrf_token %}
-                <label class="formLabel" for="task_name">Task Name</label>
-                <input class="modalInput" id="task_name" type="text" name="your_name">
-                <label class="formLabel" for="task_date">Expected Deadline</label>
-                <input class="modalInput" id="task_date" type="datetime-local" name="task_date">
+                <label class="formLabel" for="name">Task Name</label>
+                <input class="modalInput" id="name" type="text" name="name">
+                <label class="formLabel" for="deadline">Expected Deadline</label>
+                <input class="modalInput" id="deadline" type="datetime-local" name="deadline">
+                <label class="formLabel" for="time">Hours:</label>
+                <input class="modalInput" id="time" min=1 value=1 type="number" name="time">
+                <label class="formLabel" for="description">Description</label>
+                <input class="modalInput" id="description" type="text" name="description">
+                <input type="radio" name="priority" value=4 checked>Urgent<br>
+                <input type="radio" name="priority" value=3>Soon<br>
+                <input type="radio" name="priority" value=2>Later<br>
+                <input type="radio" name="priority" value=1>Not Important<br>
                 <input class="submitModal" type="submit" value="Create">
 
             </form>
