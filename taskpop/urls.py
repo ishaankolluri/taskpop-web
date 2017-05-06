@@ -16,5 +16,8 @@ urlpatterns = [
     url(r'^complete/(?P<task_id>\d+)/', views.complete, name="complete"),
     url(r'^save/(?P<task_id>\d+)/', views.save, name="save"),
     url(r'^blowup/(?P<task_id>\d+)/', views.blowup, name="blowup"),
-    url(r'^delete', views.delete, name="delete"),
+    url(r'^delete/(?P<task_id>\d+)/', views.delete, name="delete"),
+    url(r'^session', views.session, name="session"),
+    url(r'^deauth', views.deauth, name="deauth"),
+    url(r'^firsttimeuser', views.firsttimeuser, name="firsttimeuser"),
 ]
