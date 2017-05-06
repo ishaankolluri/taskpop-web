@@ -1,0 +1,39 @@
+.greetingCalendar {
+    width: 60%;
+    float: left;
+    text-align: left;
+    font-size: 34px;
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    margin-top: 10px;
+    margin-right: 0px;
+}
+
+th {
+    font-size: 18px;
+    background-color: #3C9089;
+    color: #F7F7F7;
+    border: none;
+}
+
+table {
+    text-align: center;
+    margin-top: 20px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 5px;
+    width: 95%;
+    font-size: 18px;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+
+
+.title {
+    text-align: center;
+}
+
+.formLabel {
+    font-size: 20px;
+}
