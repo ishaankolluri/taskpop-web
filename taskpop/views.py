@@ -9,23 +9,24 @@ from django.views.decorators.csrf import csrf_exempt
 
 from . import dynamo
 
+def _iso_datetime_to_human_readable(datetime_str):
+    datetime_str = datetime_str.split('T')
+    date = datetime_str[0].split('-')
+    time = datetime_str[1].split(':')
 
-def process_datetime(datetime_local_html):
-    # TODO: This function.
-    print datetime_local_html
-    # Input: MM/DD/YYYY, XX:YY MM
-    # Output: ISO 8601 Format for JSON
-    return datetime_local_html
+    year = date[0]
+    month = date[1]
+    day = date[2]
 
+    hour = time[0]
+    minute = time[1]
+    am_pm = 'AM'
 
-def datetime_to_html(json_datetime):
-    # TODO: This function. Must output to HTML form correctly.
-    print json_datetime
-    # Input: ISO 8601 Format for JSON
-    # Output: MM/DD/YYYY, XX:YY MM
-    return json_datetime
+    if int(hour) > 12:
+        hour = str(int(hour) -12)
+        am_pm = 'PM'
 
-
+    return '%s/%s/%s %s:%s %s' % (month, day, year, hour, minute, am_pm)
 @csrf_exempt
 def deauth(request):
     request.session['username'] = None
@@ -61,22 +62,23 @@ def home(request):
     task_one = {
         "task_id": 1,
         "item": "Do the laundry",
-        "date": "December 25th, 2017",
-        "deadline": "5:30pm"
+        "deadline": "2017-12-25T14:30",
     }
     task_two = {
         "task_id": 2,
         "item": "Assignment 7",
         "date": "December 25th, 2017",
-        "deadline": "4:30pm"
+        "deadline": "2017-12-25T16:30",
     }
     task_three = {
         "task_id": 3,
         "item": "Assignment 7",
         "date": "December 25th, 2017",
-        "deadline": "4:30pm"
+        "deadline": "2017-12-25T17:30",
     }
     tasks = [task_one, task_two, task_three]
+    for task in tasks:
+        task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
 
     return render(request, 'home.html', context={
         "username": username,
@@ -92,8 +94,7 @@ def edit(request):
     task_one = {
         "task_id": 1,
         "item": "Do the laundry",
-        "deadline": "1994-12-30",  # TODO: This needs to be decoded.
-        "time": "5:30pm",
+        "deadline": "1994-12-30T05:30",  # TODO: This needs to be decoded.
         "description": "Urgent. Dry Wash the Jacket",
         "ud_priority": 4,
         "ud_time": 7,
@@ -101,8 +102,7 @@ def edit(request):
     task_two = {
         "task_id": 2,
         "item": "Assignment 7",
-        "deadline": "December 25th, 2017",
-        "time": "4:30pm",
+        "deadline": "2017-12-25T04:30",
         "description": "Write the documentation of the code",
         "ud_priority": 3,
         "ud_time": 5,
@@ -110,13 +110,14 @@ def edit(request):
     task_three = {
         "task_id": 3,
         "item": "ML",
-        "deadline": "December 25th, 2017",
-        "time": "4:30pm",
+        "deadline": "2017-12-25T04:30",
         "description": "Work on SVMs",
         "ud_priority": 1,
         "ud_time": 2,
     }
     tasks = [task_one, task_two, task_three]
+    for task in tasks:
+        task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
     return render(request, 'edit.html', context={
         "tasks": tasks
     }, status=200)
@@ -135,7 +136,6 @@ def create(request):
     priority = request.POST['priority']
     time = request.POST['time']
     deadline = request.POST['deadline']
-    deadline = process_datetime(deadline)
     item = request.POST['name']
     description = request.POST['description']
     task = {
@@ -203,8 +203,7 @@ def calendar(request):
     task_one = {
         "task_id": 1,
         "item": "Do the laundry",
-        "deadline": "2017-12-30",  # TODO: This needs to be decoded.
-        "time": "5:30pm",
+        "deadline": "2017-12-30T04:30",  # TODO: This needs to be decoded.
         "description": "Urgent. Dry Wash the Jacket ",
         "ud_priority": 4,
         "ud_time": 7,
@@ -213,8 +212,7 @@ def calendar(request):
     task_two = {
         "task_id": 1,
         "item": "ML HW",
-        "deadline": "2017-12-30",  # TODO: This needs to be decoded.
-        "time": "5:30pm",
+        "deadline": "2017-12-30T03:30",  # TODO: This needs to be decoded.
         "description": "Redo the SVM Algorithm",
         "ud_priority": 4,
         "ud_time": 7,
@@ -222,8 +220,7 @@ def calendar(request):
     task_three = {
         "task_id": 1,
         "item": "Algo Course",
-        "deadline": "2017-11-30",  # TODO: This needs to be decoded.
-        "time": "6:30pm",
+        "deadline": "2017-11-30T03:00",  # TODO: This needs to be decoded.
         "description": "  Algorithm chapter 5",
         "ud_priority": 4,
         "ud_time": 7,
@@ -231,8 +228,7 @@ def calendar(request):
     task_four = {
         "task_id": 1,
         "item": "Do the laundry",
-        "deadline": "2017-12-28",  # TODO: This needs to be decoded.
-        "time": "5:30pm",
+        "deadline": "2017-12-28T04:30",  # TODO: This needs to be decoded.
         "description": "Sample Description 1",
         "ud_priority": 4,
         "ud_time": 7,
@@ -240,8 +236,7 @@ def calendar(request):
     task_five = {
         "task_id": 1,
         "item": "Do the laundry",
-        "deadline": "2017-11-30",  # TODO: This needs to be decoded.
-        "time": "7:30pm",
+        "deadline": "2017-11-30T17:30",  # TODO: This needs to be decoded.
         "description": "Sample Description 1",
         "ud_priority": 4,
         "ud_time": 7,
@@ -249,64 +244,28 @@ def calendar(request):
     task_six = {
         "task_id": 1,
         "item": "Finish of the book",
-        "deadline": "2017-1-15",  # TODO: This needs to be decoded.
-        "time": "5:30pm",
+        "deadline": "2017-01-15T20:00",  # TODO: This needs to be decoded.
         "description": "Work on the text",
         "ud_priority": 4,
         "ud_time": 7,
     }
 
-    task1 = [task_one, task_two,task_three,task_four,task_five, task_six]
-    task1 = sort_date(task1)
-    task1 = sort_time(task1)
+    tasks = [task_one, task_two,task_three,task_four,task_five, task_six]
+    tasks = sorted(tasks, key=lambda k: k['deadline'])
     task_dict = {}
-    for t in task1:
-        month = getMonth(t["deadline"].split("-")[1])
+    for task in tasks:
+        month = getMonth(task["deadline"].split("-")[1])
+        task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
         if month in task_dict:
-            task_dict[month].append(t)
+            task_dict[month].append(task)
         else:
             task_dict[month] = []
-            task_dict[month].append(t)
-    print "Reached Here"
+            task_dict[month].append(task)
     return render(request, 'calendar.html',context={"task_dict": task_dict},status=200)
-# Sort according to Data
-def sort_date(list_task):
-    for index in range(1, len(list_task)):
 
-        currentvalue = list_task[index]
-        position = index
-
-        while position > 0 and int(list_task[position - 1]["deadline"].split("-")[1]) > int(
-                currentvalue["deadline"].split("-")[1]):
-            list_task[position] = list_task[position - 1]
-            position = position - 1
-
-            list_task[position] = currentvalue
-    return list_task
-#Sort according to Time After sorting according to time
-def sort_time(list_task):
-    for position in range(1, len(list_task)):
-        currentvalue = list_task[position]
-
-        if ((int(list_task[position - 1]["deadline"].split("-")[1]) == int(currentvalue["deadline"].split("-")[1])) and (
-            int(list_task[position - 1]["deadline"].split("-")[2]) == int(currentvalue["deadline"].split("-")[2]))):
-            if int(list_task[position - 1]["time"].split(":")[0]) > int(currentvalue["time"].split(":")[0]):
-                temp = list_task[position]
-                list_task[position] = list_task[position - 1]
-                list_task[position - 1] = temp
-            elif (int(list_task[position - 1]["time"].split(":")[0]) == int(currentvalue["time"].split(":")[0])):
-
-                if (int(list_task[position - 1]["time"].split(":")[1][0]+list_task[position - 1]["time"].split(":")[1][1]) > int(
-                        currentvalue["time"].split(":")[1][0] +currentvalue["time"].split(":")[1][1] )):
-                    temp = list_task[position]
-                    list_task[position] = list_task[position - 1]
-                    list_task[position - 1] = temp
-
-    return list_task
 #Convert Numbers to month format
 def getMonth(month):
     return datetime.date(1900, int(month), 1).strftime('%B')
 #  Information Page - settings.html
 def settings(request):
     return render(request,'settings.html')
-
