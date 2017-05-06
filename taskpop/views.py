@@ -7,7 +7,7 @@ import datetime
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
 from django.views.decorators.csrf import csrf_exempt
 
-#from . import dynamo
+from . import dynamo
 
 
 def process_datetime(datetime_local_html):
