@@ -15,7 +15,7 @@ tasksarchive = dynamodb.Table('tasksarchive')
 
 def _taskarchive_create(username):
     tasksarchive.put_item(
-       Item={
+        Item={
             'username': username,
             'created': datetime.utcnow().isoformat(),
             'tasks': []
@@ -26,7 +26,7 @@ def _taskarchive_create(username):
 
 def tasks_create(username):
     tasks.put_item(
-       Item={
+        Item={
             'username': username,
             'first_name': " ",
             'last_name': " ",
@@ -36,9 +36,9 @@ def tasks_create(username):
             'tasks': list()
         }
     )
-   
+
     _taskarchive_create(username)
-    
+
     return
 
 
@@ -49,6 +49,7 @@ def tasks_get(username):
         }
     )
     return response['Item']
+
 
 '''
 def _tasks_get_next_task_num(username):
@@ -75,14 +76,14 @@ def _tasks_update_new_task(username):
         task_list = [task_id]
     else:
         task_list.append(task_id)
-        
+
     tasks.update_item(
         Key={
             'username': username,
         },
         UpdateExpression='SET next_task_num = :val1, tasks = :val2',
         ExpressionAttributeValues={
-            ':val1': res['next_task_num']+1,
+            ':val1': res['next_task_num'] + 1,
             ':val2': task_list
         }
     )
@@ -96,10 +97,10 @@ def _tasks_update_remove_task(username, task_id):
         }
     )
     res = response['Item']
-    
+
     task_list = res['tasks']
     task_list.remove(task_id)
-    
+
     tasks.update_item(
         Key={
             'username': username,
@@ -131,7 +132,6 @@ def _tasks_delete(username):
 def user_delete(username):
     # Destroy all tasks everywhere
     pass
-    
 
 
 def task_new(username, taskarg):
@@ -159,7 +159,7 @@ def task_new(username, taskarg):
             'ud_time': Decimal(taskarg['ud_time']),
             'deadline': taskarg['deadline'],
             'item': taskarg['item'],
-            'description': taskarg['description']  
+            'description': taskarg['description']
         }
     )
     return task_id
@@ -184,12 +184,12 @@ def task_update(username, task_id, taskarg):
         }
     )
     res = response['Item']
-    
+
     if (res['ud_priority'] != taskarg['ud_priority']):
         adj_priority = Decimal(taskarg['ud_priority'])
     else:
         adj_priority = res['adj_priority']
-        
+
     task.put_item(
         Item={
             'username': username,
@@ -203,7 +203,7 @@ def task_update(username, task_id, taskarg):
             'ud_time': Decimal(taskarg['ud_time']),
             'deadline': taskarg['deadline'],
             'item': taskarg['item'],
-            'description': taskarg['description']  
+            'description': taskarg['description']
         }
     )
     return
@@ -219,17 +219,17 @@ def _task_delete(username, task_id):
     return
 
 
-def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 0):
+def task_update_priority(username, task_id, higher_task_id=0, lower_task_id=0):
     if higher_task_id:
         higher = task_get(username, higher_task_id)['adj_priority']
     else:
         higher = 5
-        
+
     if lower_task_id:
         lower = task_get(username, lower_task_id)['adj_priority']
     else:
         lower = 0
-        
+
     response = task.get_item(
         Key={
             'username': username,
@@ -237,9 +237,9 @@ def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 
         }
     )
     res = response['Item']
-    
-    adj_priority = (higher + lower)/2
-    
+
+    adj_priority = (higher + lower) / 2
+
     task.put_item(
         Item={
             'username': username,
@@ -253,7 +253,7 @@ def task_update_priority(username, task_id, higher_task_id = 0, lower_task_id = 
             'ud_time': res['ud_time'],
             'deadline': res['deadline'],
             'item': res['item'],
-            'description': res['description']  
+            'description': res['description']
         }
     )
 
@@ -271,8 +271,8 @@ def _task_close(username, task_id, completed_time):
         }
     )
     return
-    
-    
+
+
 def _tasksarchive_update_remove_task(username, task_id):
     response = tasksarchive.get_item(
         Key={
@@ -280,10 +280,10 @@ def _tasksarchive_update_remove_task(username, task_id):
         }
     )
     res = response['Item']
-    
+
     task_list = res['tasks']
     task_list.remove(task_id)
-    
+
     tasksarchive.update_item(
         Key={
             'username': username,
@@ -297,7 +297,7 @@ def _tasksarchive_update_remove_task(username, task_id):
 
 
 def _taskarchive_update_add_task(username, task_id):
-     # Returns the task_id that should be added.  Ensures tasks are added sequentially.s
+    # Returns the task_id that should be added.  Ensures tasks are added sequentially.s
     response = tasksarchive.get_item(
         Key={
             'username': username,
@@ -309,7 +309,7 @@ def _taskarchive_update_add_task(username, task_id):
         task_list = [task_id]
     else:
         task_list.append(task_id)
-        
+
     tasksarchive.update_item(
         Key={
             'username': username,
@@ -321,7 +321,7 @@ def _taskarchive_update_add_task(username, task_id):
     )
     return
 
-    
+
 def task_remove(username, task_id):
     try:
         _tasks_update_remove_task(username, task_id)
@@ -336,17 +336,17 @@ def task_archive(username, task_id, completed_time):
     _taskarchive_update_add_task(username, task_id)
     _task_close(username, task_id, completed_time)
     return
-    
-    
-def task_blowup(username, task_id, ntasks = 4):
+
+
+def task_blowup(username, task_id, ntasks=4):
     weight = .01
     parent = task_get(username, task_id)
     task_remove(username, task_id)
     for i in range(ntasks):
         task_id = _tasks_update_new_task(username)
-        
-        offset = weight * ( (ntasks-1-i) + random.random())
-        #print(offset)
+
+        offset = weight * ((ntasks - 1 - i) + random.random())
+        # print(offset)
         task.put_item(
             Item={
                 'username': username,
@@ -355,12 +355,12 @@ def task_blowup(username, task_id, ntasks = 4):
                 'modified': datetime.utcnow().isoformat(),
                 'finished': datetime.utcnow().isoformat(),
                 'comp_time': 0,
-                'adj_priority': Decimal(parent['ud_priority'])+Decimal(offset),
+                'adj_priority': Decimal(parent['ud_priority']) + Decimal(offset),
                 'ud_priority': parent['ud_priority'],
-                'ud_time': Decimal(parent['ud_time']/ntasks),
+                'ud_time': Decimal(parent['ud_time'] / ntasks),
                 'deadline': parent['deadline'],
-                'item': parent['item']+' - Part 1',
-                'description': parent['description']  
+                'item': parent['item'] + ' - Part 1',
+                'description': parent['description']
             }
         )
     return
@@ -372,7 +372,7 @@ def _tasks_batch(username):
     for task_id in task_id_list:
         key_term = {'username': username, 'task_id': task_id}
         key_list.append(key_term)
-        
+
     response = dynamodb.batch_get_item(
         RequestItems={
             'task': {
@@ -380,20 +380,19 @@ def _tasks_batch(username):
             }
         }
     )
-    
-    
+
     tasks = response['Responses']['task']
     return sorted(tasks, key=lambda task: task['adj_priority'], reverse=True)
 
 
-def tasks_list(username, nitems = 0):
+def tasks_list(username, nitems=0):
     tasks = _tasks_batch(username)
     if nitems == 0 or nitems > len(tasks):
         return tasks
     else:
         return tasks[0:nitems]
 
-    
+
 def taskarchive_get(username):
     response = tasksarchive.get_item(
         Key={
@@ -402,8 +401,8 @@ def taskarchive_get(username):
     )
     return response['Item']
 
-    
 
-    
+
+
 
 

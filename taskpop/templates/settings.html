@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+      <link href="{% static 'css/settings.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/settings.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <h1 style="font-size: 70px;text-align:center;color:#aaaaaa;">Task Pop. </h1>
+    <h2>Thank you for choosing Task Pop. We help you complete your tasks hassle free. We predict the tasks priority, the start time and the end time.</h2>
+    <table border='0'>
+
+         <tr>
+             <td class="tableNormal" >
+                  <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Google Login </h1>
+                 <figure>
+                    <img src="{% static 'img/LoginView.png' %}" style="width:500px;height:300px;overflow: hidden; "/>
+                    <figcaption>Simply Login using your Google Account</figcaption>
+                 </figure>
+             </td>
+
+              <td class="tableNormal" >
+                   <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Home </h1>
+                 <figure>
+                    <img src="{% static 'img/Home.png' %}" style="width:500px;height:300px;overflow: hidden; "/>
+                    <figcaption>Home Screen Always shows the top 3 priority task. You can also add new task and edit them here.</figcaption>
+                 </figure>
+             </td>
+         </tr>
+
+
+         <tr>
+             <td class="tableNormal" >
+                   <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Create Task </h1>
+                 <figure>
+                    <img src="{% static 'img/CreateTask.png' %}" style="width:500px;height:300px;overflow: hidden; "/>
+                    <figcaption>Simply create the task and let us help you to finish them in time.</figcaption>
+                 </figure>
+             </td>
+
+             <td class="tableNormal" >
+                   <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Task List </h1>
+                 <figure>
+                    <img src="{% static 'img/TaskList.png' %}" style="width:500px;height:300px;overflow: hidden; "/>
+                    <figcaption>Shows you all the task in priority order. Simply drag and change the priority of the task.</figcaption>
+                 </figure>
+             </td>
+         </tr>
+
+
+         <tr>
+             <td class="tableNormal" >
+                   <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Calendar  </h1>
+                 <figure>
+                    <img src="{% static 'img/CalendarView.png' %}" style="width:500px;height:300px;overflow: hidden; "/>
+                    <figcaption> We predict the task time. You get to see tasks, the start time and the deadline.</figcaption>
+                 </figure>
+             </td>
+
+             <td class="tableNormal" >
+                   <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Blow Up </h1>
+                 <figure>
+                    <img src="{% static 'img/BlowUp.png' %}" style="width:500px;height:300px;overflow: hidden; "/>
+                    <figcaption>If we think the task is to big to finish in one go. We blow it up for you.</figcaption>
+                 </figure>
+             </td>
+         </tr>
+
+        <tfoot>
+            <tr>
+                <td class="tableFooter" >
+                 <h1 style="font-size: 60px;text-align:center;color:#aaaaaa;align:center"> Developers</h1>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="tableNormal" >
+                   <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Aman Shankar  </h1>
+                    <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Calvin Tian Li </h1>
+                 </td>
+
+                 <td class="tableNormal" >
+                       <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Keir Christian Lauritzen</h1>
+                       <h1 style="font-size: 40px;text-align:center;color:#aaaaaa;"> Ishaan Kolluri </h1>
+                 </td>
+            </tr>
+        </tfoot>
+
+    </table>
+
+
+
+{% endblock %}
