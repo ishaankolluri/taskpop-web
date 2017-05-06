@@ -343,7 +343,7 @@ def task_blowup(username, task_id, ntasks = 4):
                 'ud_priority': parent['ud_priority'],
                 'ud_time': Decimal(parent['ud_time']/ntasks),
                 'deadline': parent['deadline'],
-                'item': parent['item']+' - Part 1',
+                'item': parent['item']+' - Part '+str(i+1),
                 'description': parent['description']  
             }
         )
