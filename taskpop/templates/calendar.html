@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+      <link href="{% static 'css/cal.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+{% block content %}
+     <h1 style="font-size: 70px;text-align:center;color:#aaaaaa;"><img src="{% static 'img/calendar.png' %}" align="centre" height = 50px> Calendar </h1>
+
+    {% if task_dict %}
+        <table border='0'>
+
+        <tr>
+            <th >Date</th>
+            <th class ="inputTask"> Task</th>
+        </tr>
+
+        {% for key, values in task_dict.items %}
+
+            <tr>
+                <td class = "inputMonth"> {{key}}</td>
+                <td> </td>
+            </tr>
+
+            {% for v in values %}
+                <tr>
+                    <td class = "inputDate">{{t.date}}</td>
+                    <td class="tableNormal">
+                        <p>{{v.item}}</t></p>
+                        <p>{{v.description}}</p>
+                        <p>DATE:&nbsp;{{v.deadline }}&nbsp;&nbsp; TIME:&nbsp;{{v.time}}&nbsp;&nbsp;&nbsp;&nbsp;EXPECTED TIME:&nbsp;</t></p>
+
+                    </td>
+                </tr>
+
+            {%endfor%}
+        {%endfor%}
+
+    {% else %}
+        <h1 class="title">You have no tasks available in your Calendar.</h1>
+    {% endif %}
+
+{% endblock %}
