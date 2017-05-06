@@ -136,7 +136,6 @@ def create(request):
     priority = request.POST['priority']
     time = request.POST['time']
     deadline = request.POST['deadline']
-    deadline = process_datetime(deadline)
     item = request.POST['name']
     description = request.POST['description']
     task = {
