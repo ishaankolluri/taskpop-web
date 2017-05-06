@@ -23,7 +23,7 @@
             <div class="card">
                 <span>{{ task.item }}</span>
                 <br>
-                <span>{{ task.deadline }}</span>
+                <span>{{ task.readable_deadline }}</span>
                 <br>
                 <div id="{{ task.task_id }}" class="complete"><a href="{% url 'taskpop:complete' task.task_id %}">Complete</a></div>
             </div>

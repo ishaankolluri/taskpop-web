@@ -62,22 +62,23 @@ def home(request):
     task_one = {
         "task_id": 1,
         "item": "Do the laundry",
-        "date": "December 25th, 2017",
-        "deadline": "5:30pm"
+        "deadline": "2017-12-25T14:30",
     }
     task_two = {
         "task_id": 2,
         "item": "Assignment 7",
         "date": "December 25th, 2017",
-        "deadline": "4:30pm"
+        "deadline": "2017-12-25T16:30",
     }
     task_three = {
         "task_id": 3,
         "item": "Assignment 7",
         "date": "December 25th, 2017",
-        "deadline": "4:30pm"
+        "deadline": "2017-12-25T17:30",
     }
     tasks = [task_one, task_two, task_three]
+    for task in tasks:
+        task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
 
     return render(request, 'home.html', context={
         "username": username,
