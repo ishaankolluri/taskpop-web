@@ -11,12 +11,13 @@
 
 {% block content %}
     {% if tasks %}
+        <div class="title">Drag a task over another to switch their priority.</div>
         <table>
             <tr>
                 <th>Task</th>
             </tr>
             {% for task in tasks %}
-                <tr>
+                <tr class="drag" draggable="true">
                     <td id="{{ task.task_id }}" class="tableInfo">
                         <p>{{ task.item }}</p>
                         <p>{{ task.deadline }}</p>

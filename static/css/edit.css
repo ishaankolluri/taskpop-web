@@ -69,6 +69,7 @@ table {
 
 .title {
     text-align: center;
+    color: #616161;
 }
 
 .tableInfo {
@@ -78,6 +79,7 @@ table {
     padding-left: 20px;
     transition: box-shadow 0.5s;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    cursor: move;
 }
 
 .tableInfo:hover {
@@ -131,7 +133,7 @@ table {
 
 .modalContent {
     background-color: #F7F7F7;
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 20px;
     width: 80%;
 }
@@ -147,4 +149,24 @@ table {
     color: #265a56;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+.drag {
+    cursor: move;
+}
+
+.drag.over {
+    border: 1px dashed #3C9089;
+
 }

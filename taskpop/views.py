@@ -180,7 +180,7 @@ def blowup(request, task_id):
     # TODO: new page for blowup.
     print task_id
     
-    username = request.POST['username']
+    username = request.session['username']
     #dynamo.task_blowup(username, task_id)
     
     
@@ -268,7 +268,21 @@ def calendar(request):
             task_dict[month] = []
             task_dict[month].append(t)
     print "Reached Here"
-    return render(request, 'calendar.html',context={"task_dict": task_dict},status=200)
+    return render(request, 'calendar.html', context={
+        "task_dict": task_dict}, status=200)
+
+
+@csrf_exempt
+def reprioritize(request):
+    username = request.session['username']
+    tasks_in_order = request.POST['json_data']
+
+    # Check that the priority is not in order, as HTML should be out of order.
+    # Process task priority values in dynamo.
+
+    return HttpResponse(status=200)
+
+
 # Sort according to Data
 def sort_date(list_task):
     for index in range(1, len(list_task)):
@@ -283,7 +297,9 @@ def sort_date(list_task):
 
             list_task[position] = currentvalue
     return list_task
-#Sort according to Time After sorting according to time
+
+
+# Sort according to Time After sorting according to time
 def sort_time(list_task):
     for position in range(1, len(list_task)):
         currentvalue = list_task[position]
@@ -303,10 +319,14 @@ def sort_time(list_task):
                     list_task[position - 1] = temp
 
     return list_task
-#Convert Numbers to month format
+
+
+# Convert Numbers to month format
 def getMonth(month):
     return datetime.date(1900, int(month), 1).strftime('%B')
-#  Information Page - settings.html
+
+
+# Information Page - settings.html
 def settings(request):
     return render(request,'settings.html')
 

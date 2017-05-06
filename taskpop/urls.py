@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^session', views.session, name="session"),
     url(r'^deauth', views.deauth, name="deauth"),
     url(r'^firsttimeuser', views.firsttimeuser, name="firsttimeuser"),
+    url(r'^reprioritize', views.reprioritize, name="reprioritize"),
 ]
