@@ -186,7 +186,7 @@ def delete(request, task_id):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
-    dynamo.task_remove(username, task_id)
+    dynamo.task_remove(username, int(task_id))
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
