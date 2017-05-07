@@ -167,8 +167,6 @@ def save(request, task_id):
     }
 
     dynamo.task_update(username, task_id, task)
-    
-    
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
@@ -176,9 +174,7 @@ def blowup(request, task_id):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
-    # TODO: task_blowup should return list of newly formed tasks.
     tasks = dynamo.task_blowup(username, task_id)
-
     return render(request, 'blowup.html', context={
         "tasks": tasks
     })
@@ -186,16 +182,13 @@ def blowup(request, task_id):
 
 @csrf_exempt
 def delete(request, task_id):
-    print task_id
-    # print json.loads(request.POST['json_data'])['tasks']
-    # NOTE: This might not redirect because it calls back to the AJAX in JS.
-    
-    #dynamo.task_remove(username, task_id)
-    
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('taskpop:login'))
+    username = request.session['username']
+    dynamo.task_remove(username, task_id)
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
-# Sends the Tasks in sorted format to calendar.html
 def calendar(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
