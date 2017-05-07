@@ -14,12 +14,7 @@ var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poo
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-//  console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-//  console.log(googleUser.getAuthResponse().id_token);
-//  console.log(googleUser.getAuthResponse().id_token.length);
   var dataName = {
         Name: 'name',
         Value: profile.getName()
@@ -47,13 +42,13 @@ function loggedIn(profile, attributeList){
         Pool: userPool
     };
     var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+    console.log("Attempting to authenticate the user.");
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function(result){
             // Send access token and username to the 'loggedIn' endpoint
             var access_token = result.getAccessToken().getJwtToken();
             var id_token = result.idToken.jwtToken;
             console.log("Logged In: " + cognitoUser.getUsername());
-            console.log("updating session params");
             $.ajax({
               type: "POST",
               url: "/session/",
@@ -66,13 +61,13 @@ function loggedIn(profile, attributeList){
             window.location.assign('home');
         },
         onFailure: function(err){
+            console.log("Registering the user to Cognito for the first time.");
             userPool.signUp(profile.getEmail(), profile.getId(), attributeList, null, function(err, result){
                 if (err) {
                     alert("Could not sign up: " + err);
                     return;
                 }
-//                cognitoUser = result.user;
-                console.log('Signed up: ' + cognitoUser.getUsername());
+                console.log('Successfully signed up: ' + cognitoUser.getUsername());
                 $.ajax({
                   type: "POST",
                   url: "/session/",
@@ -81,6 +76,7 @@ function loggedIn(profile, attributeList){
                     console.log("Did not update session: " + data);
                   }
                 });
+                console.log("Put the user in Dynamo for the first time.");
                 $.ajax({
                   type: "POST",
                   url: "/firsttimeuser/",
@@ -91,13 +87,6 @@ function loggedIn(profile, attributeList){
                 });
                 window.location.assign('home');
             });
-        },
+        }
     });
 }
-
-// function signOut() {
-//     var auth2 = gapi.auth2.getAuthInstance();
-//     auth2.signOut().then(function () {
-//       console.log('User signed out.');
-//     });
-//   }
