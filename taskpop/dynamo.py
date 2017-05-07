@@ -15,6 +15,12 @@ session = boto3.Session(
     aws_secret_access_key=dynamodb_keys['aws_secret_access_key']
 )
 
+from boto3.dynamodb.types import DYNAMODB_CONTEXT
+# Inhibit Inexact Exceptions
+DYNAMODB_CONTEXT.traps[Inexact] = 0
+# Inhibit Rounded Exceptions
+DYNAMODB_CONTEXT.traps[Rounded] = 0
+
 dynamodb = session.resource('dynamodb', region_name='us-east-1')
 
 task = dynamodb.Table('task')
@@ -112,6 +118,7 @@ def _tasks_update_remove_task(username, task_id):
     res = response['Item']
 
     task_list = res['tasks']
+    print(task_id)
     task_list.remove(Decimal(task_id))
 
     tasks.update_item(
@@ -170,7 +177,7 @@ def task_new(username, taskarg):
             'created': datetime.utcnow().isoformat(),
             'modified': datetime.utcnow().isoformat(),
             'finished': datetime.utcnow().isoformat(),
-            'comp_time': Decimal(0.0),
+            'comp_time': Decimal(1.1),
             'adj_priority': Decimal(taskarg['ud_priority']),
             'ud_priority': taskarg['ud_priority'],
             'ud_time': Decimal(taskarg['ud_time']),
@@ -279,7 +286,7 @@ def _task_close(username, task_id, completed_time):
     task.update_item(
         Key={
             'username': username,
-            'task_id': task_id
+            'task_id': int(task_id)
         },
         UpdateExpression='SET finished = :val1, comp_time = :val2',
         ExpressionAttributeValues={
@@ -359,9 +366,9 @@ def task_blowup(username, task_id, ntasks=4):
     weight = .01
     parent = task_get(username, task_id)
     task_remove(username, task_id)
+    task_id_list = []
     for i in range(ntasks):
         task_id = _tasks_update_new_task(username)
-
         offset = weight * ((ntasks - 1 - i) + random.random())
         # print(offset)
         task.put_item(
@@ -380,14 +387,15 @@ def task_blowup(username, task_id, ntasks=4):
                 'description': parent['description']
             }
         )
-    return
+        task_id_list.append(task_id)
+    return task_id_list
 
 
 def _tasks_batch(username):
     task_id_list = tasks_get(username)['tasks']
     key_list = [];
     for task_id in task_id_list:
-        key_term = {'username': username, 'task_id': task_id}
+        key_term = {'username': username, 'task_id': int(task_id)}
         key_list.append(key_term)
     
     if len(task_id_list) == 0:
