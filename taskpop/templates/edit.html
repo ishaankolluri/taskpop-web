@@ -48,10 +48,6 @@
             <div id="{{ task.task_id }}_modal" class="modal">
                 <div class="modalContent">
                     <span id="{{ task.task_id }}_close" class="closeModal">&times;</span>
-                    <div class="buttons">
-                        <a href="{% url 'taskpop:delete' task.task_id %}"><img class="buttonimg" src="{% static 'img/Trash.png' %}"></a>
-                        <a href="{% url 'taskpop:blowup' task.task_id %}"><img src="{% static 'img/Bomb.png' %}"></a>
-                    </div>
                     <div class="titleContainer"><h2 class="title">Edit Task</h2></div>
                     <form action="{% url 'taskpop:save' task.task_id %}" method="post">{% csrf_token %}
                         <label class="formLabel" for="name">Task Name</label>
