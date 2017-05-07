@@ -15,7 +15,7 @@ session = boto3.Session(
     aws_secret_access_key=dynamodb_keys['aws_secret_access_key']
 )
 
-#https://github.com/boto/boto/issues/1531
+
 from boto3.dynamodb.types import DYNAMODB_CONTEXT
 # Inhibit Inexact Exceptions
 DYNAMODB_CONTEXT.traps[Inexact] = 0
@@ -416,8 +416,6 @@ def _tasks_batch(username, task_id_list = []):
     for task_id in task_id_list:
         key_term = {'username': username, 'task_id': int(task_id)}
         key_list.append(key_term)
-    
-    
     response = dynamodb.batch_get_item(
         RequestItems={
             'task': {
@@ -445,6 +443,7 @@ def taskarchive_get(username):
         }
     )
     return response['Item']
+
 
 def new_priority(task_num, num_tasks):
     MAX_PRIORITY = 4.9
@@ -492,4 +491,3 @@ def task_update_all_priority(username, task_id_list):
             'task': put_requests
         }
     )
-    print "Put new tasks in dynamo"
