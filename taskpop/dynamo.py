@@ -437,7 +437,7 @@ def new_priority(task_num, num_tasks):
     MIN_PRIORITY = 0.1
 
     priority_step = (MAX_PRIORITY-MIN_PRIORITY)/(num_tasks+1)
-    return Decimal(MIN_PRIORITY + (task_num+1) * priority_step)
+    return Decimal(MIN_PRIORITY + (num_tasks - task_num) * priority_step)
     
     
 def task_update_all_priority(username, task_id_list):
@@ -445,13 +445,12 @@ def task_update_all_priority(username, task_id_list):
         return
     tasks = tasks_list(username)
 
-    
-    
     num_tasks = len(tasks)
-    task_num = num_tasks
     put_requests = []
     
     for task in tasks:
+        task_num = task_id_list.index(task['task_id'])
+        #print task_num
         put_request =  {
             'PutRequest': {
                 'Item': {
@@ -470,13 +469,13 @@ def task_update_all_priority(username, task_id_list):
                 }
             }   
         }
-        print new_priority(task_num, num_tasks)
+        #print put_request['PutRequest']['Item']['task_id']
+        #print put_request['PutRequest']['Item']['adj_priority']
         put_requests.append(put_request)
-        task_num-=1
         
     response = dynamodb.batch_write_item(
         RequestItems={
             'task': put_requests
         }
     )
-    
+    print "Put new tasks in dynamo"

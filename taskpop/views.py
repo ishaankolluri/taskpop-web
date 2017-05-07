@@ -62,9 +62,10 @@ def home(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
+
     
     tasks = dynamo.tasks_list(username, 3)
-        
+     
     for task in tasks:
         task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
 
@@ -93,6 +94,7 @@ def edit(request):
 def reprioritize(request):
     username = request.session['username']
     ids = json.loads(request.POST['task_ids'])
+    print ids
     for i in range(len(ids)):
         ids[i] = int(ids[i])
 
@@ -164,10 +166,10 @@ def save(request, task_id):
 
 
 def blowup(request, task_id):
+
     username = request.session['username']
     # TODO: task_blowup should return list of newly formed tasks.
     # tasks = dynamo.task_blowup(username, task_id)
-    
     
     return render(request, 'blowup.html', context={
         # "tasks": tasks
