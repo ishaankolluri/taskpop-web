@@ -197,6 +197,8 @@ def task_get(username, task_id):
             'task_id': task_id
         }
     )
+    if 'Item' not in response:
+        return {}
     return response['Item']
 
 
@@ -369,8 +371,11 @@ def task_archive(username, task_id, completed_time):
 
 def task_blowup(username, task_id, ntasks=4):
     weight = .01
-    task_id = int(task_id)
+    task_id = Decimal(task_id)
     parent = task_get(username, task_id)
+    if not parent:
+        print "Empty parent"
+        return []
     task_remove(username, task_id)
     task_id_list = []
     for i in range(ntasks):
@@ -389,23 +394,30 @@ def task_blowup(username, task_id, ntasks=4):
                 'ud_priority': parent['ud_priority'],
                 'ud_time': Decimal(parent['ud_time'] / ntasks),
                 'deadline': parent['deadline'],
-                'item': parent['item'] + ' - Part '+str(i=1),
+                'item': parent['item'] + ' - Part '+str(i+1),
                 'description': parent['description']
             }
         )
         task_id_list.append(task_id)
-    return task_id_list
+        
+        
+    return _tasks_batch(username, task_id_list)
 
 
-def _tasks_batch(username):
-    task_id_list = tasks_get(username)['tasks']
+def _tasks_batch(username, task_id_list = []):
+    print task_id_list
+    if not task_id_list: # I wasn't passed a list
+        task_id_list = tasks_get(username)['tasks']
+        if not task_id_list: # A list doesn't exist.
+            return []
+    
+    
     key_list = [];
     for task_id in task_id_list:
         key_term = {'username': username, 'task_id': int(task_id)}
         key_list.append(key_term)
     
-    if not task_id_list:
-        return []
+    
     response = dynamodb.batch_get_item(
         RequestItems={
             'task': {

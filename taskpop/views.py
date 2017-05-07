@@ -187,8 +187,10 @@ def blowup(request, task_id):
     # TODO: task_blowup should return list of newly formed tasks.
     tasks = dynamo.task_blowup(username, task_id)
     
+    print tasks
+    
     return render(request, 'blowup.html', context={
-        # "tasks": tasks
+        "tasks": tasks
     })
 
 
