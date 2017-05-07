@@ -77,8 +77,6 @@ def edit(request):
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
     tasks = dynamo.tasks_list(username)
-    
-
     for task in tasks:
         task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
     return render(request, 'edit.html', context={
@@ -144,11 +142,6 @@ def save(request, task_id):
         return HttpResponseRedirect(reverse('taskpop:login'))
     print task_id
     print request.POST
-    # TODO: update the task at task_id with the contents of request.POST
-
-
-    username = request.session['username']
-
 
     username = request.session['username']
     

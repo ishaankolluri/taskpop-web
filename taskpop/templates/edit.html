@@ -60,26 +60,18 @@
                         <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
                         <label class="formLabel" for="ud_priority">Priority</label>
                         <br>
-                        {% if task.ud_priority == 4 %}
-                        <input type="radio" name="ud_priority" value=4 checked>Urgent<br>
-                        {% else %}
-                        <input type="radio" name="ud_priority" value=4 >Urgent<br>
-                        {% endif %}
-                        {% if task.ud_priority == 3 %}
-                        <input type="radio" name="ud_priority" value=3 checked>Soon<br>
-                        {% else %}
-                        <input type="radio" name="ud_priority" value=3 >Soon<br>
-                        {% endif %}
-                        {% if task.ud_priority == 2 %}
-                        <input type="radio" name="ud_priority" value=2 checked>Later<br>
-                        {% else %}
-                        <input type="radio" name="ud_priority" value=2 >Later<br>
-                        {% endif %}
-                        {% if task.ud_priority == 1 %}
-                        <input type="radio" name="ud_priority" value=1 checked>Not Important<br>
-                        {% else %}
-                        <input type="radio" name="ud_priority" value=1 >Not Important<br>
-                        {% endif %}
+                        <input class="{{ task.task_id }}_radio" type="radio" name="ud_priority" value=4>Urgent<br>
+                        <input class="{{ task.task_id }}_radio" type="radio" name="ud_priority" value=3>Soon<br>
+                        <input class="{{ task.task_id }}_radio" type="radio" name="ud_priority" value=2>Later<br>
+                        <input class="{{ task.task_id }}_radio" type="radio" name="ud_priority" value=1>Not Important<br>
+                        <script>
+                            var current_radios = document.getElementsByClassName("{{ task.task_id }}_radio");
+                            for(var i = 0; i < current_radios.length; i++){
+                                if(parseInt(current_radios[i].value) === {{ task.ud_priority }}) {
+                                    current_radios[i].checked = true;
+                                }
+                            }
+                        </script>
                         <input class="submitModal" type="submit" value="Save">
                     </form>
                 </div>
