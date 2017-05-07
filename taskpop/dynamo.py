@@ -456,12 +456,13 @@ def new_priority(task_num, num_tasks):
 def task_update_all_priority(username, task_id_list):
     if not task_id_list:
         return
+    print "listing dynamo: " + str(task_id_list)
     tasks = tasks_list(username)
 
     num_tasks = len(tasks)
     put_requests = []
-    
     for task in tasks:
+        print int(task['task_id'])
         task_num = task_id_list.index(task['task_id'])
         #print task_num
         put_request =  {

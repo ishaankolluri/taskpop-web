@@ -55,7 +55,7 @@
                         <label class="formLabel" for="deadline">Expected Deadline</label>
                         <input class="modalInput" id="deadline" type="datetime-local" name="deadline" value="{{ task.deadline }}">
                         <label class="formLabel" for="ud_time">Hours:</label>
-                        <input class="modalInput" id="ud_time" min=1 type="number" name="ud_time" value="{{ task.ud_time }}">
+                        <input class="modalInput" id="ud_time" min=0 step="any" type="number" name="ud_time" value="{{ task.ud_time }}">
                         <label class="formLabel" for="description">Description</label>
                         <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
                         <label class="formLabel" for="ud_priority">Priority</label>

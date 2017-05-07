@@ -27,7 +27,7 @@
         {% endfor %}
     </tbody>
     </table>
-    <div id="save">Save Subtasks</div>
+    <div id="save">Reprioritize Subtasks</div>
 
     <script>
         var fixHelper = function(e, ui) {
@@ -42,19 +42,23 @@
     </script>
 
     {% for task in tasks %}
-        <div id="{{ task.task_id }}_modal" class="modalContent">
-            <span id="{{ task.task_id }}_close" class="closeModal">&times;</span>
-            <div class="titleContainer"><h2 class="title">Edit Subtask</h2></div>
-            <label class="formLabel" for="name">Task Name</label>
-            <input class="modalInput" id="item" type="text" name="item" value="{{ task.item }}">
-            <label class="formLabel" for="deadline">Expected Deadline</label>
-            <input class="modalInput" id="deadline" type="datetime-local" name="deadline" value="{{ task.deadline }}">
-            <label class="formLabel" for="ud_time">Hours:</label>
-            <input class="modalInput" id="ud_time" min=1 type="number" name="ud_time" value="{{ task.ud_time }}">
-            <label class="formLabel" for="description">Description</label>
-            <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
-            <input name="ud_priority" style="display: none;" type="text" value="{{ task.ud_priority }}">
+        <div id="{{ task.task_id }}_modal" class="modal">
+            <div class="modalContent">
+                <span id="{{ task.task_id }}_close" class="closeModal">&times;</span>
+                <div class="titleContainer"><h2 class="title">Edit Subtask</h2></div>
+                <label class="formLabel" for="{{ task.task_id }}_item">Task Name</label>
+                <input class="modalInput" id="item" type="text" name="{{ task.task_id }}_item" value="{{ task.item }}">
+                <label class="formLabel" for="{{ task.task_id }}_deadline">Expected Deadline</label>
+                <input class="modalInput" id="deadline" type="datetime-local" name="{{ task.task_id }}_deadline" value="{{ task.deadline }}">
+                <label class="formLabel" for="{{ task.task_id }}_ud_time">Hours:</label>
+                <input class="modalInput" id="ud_time" min=0 step="any" type="number" name="{{ task.task_id }}_ud_time" value="{{ task.ud_time }}">
+                <label class="formLabel" for="{{ task.task_id }}_description">Description</label>
+                <input class="modalInput" id="description" type="text" name="{{ task.task_id }}_description" value="{{ task.description }}">
+                <input name="{{ task.task_id }}_ud_priority" style="display: none;" type="text" value="{{ task.ud_priority }}">
+                <input id="{{ task.task_id }}_submit" class="submitModal" type="submit" value="Save">
+            </div>
         </div>
+
         <script>
             $(function(){
                $("#{{ task.task_id }}").click(function(event){
@@ -65,6 +69,31 @@
                      modal.style.display = "none";
                   });
                });
+
+               $("#{{ task.task_id }}_submit").click(function(event){
+                  event.preventDefault();
+                   var json_data = {};
+                   var modal = document.getElementById("{{ task.task_id }}_modal");
+                   json_data["task_id"] = parseInt({{ task.task_id }});
+                   json_data["item"] = $("input[name='{{ task.task_id }}_item']").val();
+                   json_data["ud_priority"] = $("input[name='{{ task.task_id }}_ud_priority']").val();
+                   json_data["deadline"] = $("input[name='{{ task.task_id }}_deadline']").val();
+                   json_data["ud_time"] = $("input[name='{{ task.task_id }}_ud_time']").val();
+                   json_data["description"] = $("input[name='{{ task.task_id }}_description']").val();
+                   console.log(json_data);
+                   $.ajax({
+                    type: "POST",
+                    url: "/blowup_save/",
+                    data: {task: JSON.stringify(json_data) },
+                    success: function(){
+                        var modal = document.getElementById("{{ task.task_id }}_modal");
+                        modal.style.display = "none";
+                    },
+                    failure: function(err){
+                        alert("Something went wrong: " + err)
+                    }
+                   });
+               })
             });
         </script>
     {% endfor %}
