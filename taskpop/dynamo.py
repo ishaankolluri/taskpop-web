@@ -15,6 +15,7 @@ session = boto3.Session(
     aws_secret_access_key=dynamodb_keys['aws_secret_access_key']
 )
 
+
 from boto3.dynamodb.types import DYNAMODB_CONTEXT
 # Inhibit Inexact Exceptions
 DYNAMODB_CONTEXT.traps[Inexact] = 0
@@ -46,7 +47,7 @@ def tasks_create(username):
             'first_name': " ",
             'last_name': " ",
             'created': datetime.utcnow().isoformat(),
-            'multiplier': 1,
+            'multiplier': Decimal(1),
             'next_task_num': 1,
             'tasks': list()
         }
@@ -243,6 +244,9 @@ def _task_delete(username, task_id):
     return
 
 
+    
+
+
 def task_update_priority(username, task_id, higher_task_id=0, lower_task_id=0):
     if higher_task_id:
         higher = task_get(username, higher_task_id)['adj_priority']
@@ -397,8 +401,8 @@ def _tasks_batch(username):
     for task_id in task_id_list:
         key_term = {'username': username, 'task_id': int(task_id)}
         key_list.append(key_term)
-    
-    if len(task_id_list) == 0:
+
+    if not task_id_list:
         return []
     response = dynamodb.batch_get_item(
         RequestItems={
@@ -427,3 +431,52 @@ def taskarchive_get(username):
         }
     )
     return response['Item']
+
+
+def new_priority(task_num, num_tasks):
+    MAX_PRIORITY = 4.9
+    MIN_PRIORITY = 0.1
+
+    priority_step = (MAX_PRIORITY-MIN_PRIORITY)/(num_tasks+1)
+    return Decimal(MIN_PRIORITY + (num_tasks - task_num) * priority_step)
+    
+    
+def task_update_all_priority(username, task_id_list):
+    if not task_id_list:
+        return
+    tasks = tasks_list(username)
+
+    num_tasks = len(tasks)
+    put_requests = []
+    
+    for task in tasks:
+        task_num = task_id_list.index(task['task_id'])
+        #print task_num
+        put_request =  {
+            'PutRequest': {
+                'Item': {
+                    'username': task['username'],
+                    'task_id': task['task_id'],
+                    'created': task['created'],
+                    'modified': datetime.utcnow().isoformat(),
+                    'finished': datetime.utcnow().isoformat(),
+                    'comp_time': task['comp_time'],
+                    'adj_priority': new_priority(task_num, num_tasks),
+                    'ud_priority': task['ud_priority'],
+                    'ud_time': task['ud_time'],
+                    'deadline': task['deadline'],
+                    'item': task['item'],
+                    'description': task['description']
+                }
+            }   
+        }
+        #print put_request['PutRequest']['Item']['task_id']
+        #print put_request['PutRequest']['Item']['adj_priority']
+        put_requests.append(put_request)
+        
+    response = dynamodb.batch_write_item(
+        RequestItems={
+            'task': put_requests
+        }
+    )
+    print "Put new tasks in dynamo"

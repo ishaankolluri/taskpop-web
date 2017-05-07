@@ -58,6 +58,8 @@
                         <input class="modalInput" id="ud_time" min=1 type="number" name="ud_time" value="{{ task.ud_time }}">
                         <label class="formLabel" for="description">Description</label>
                         <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
+                        <label class="formLabel" for="ud_priority">Priority</label>
+                        <br>
                         {% if task.ud_priority == 4 %}
                         <input type="radio" name="ud_priority" value=4 checked>Urgent<br>
                         {% else %}
