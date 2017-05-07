@@ -153,4 +153,12 @@
 }
 
 
+.warning {
+    color: #B9443B;
+    text-align: center;
+}
 
+.optimist {
+    color: #5b80b2;
+    text-align: center;
+}

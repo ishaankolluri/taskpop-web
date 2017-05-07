@@ -62,6 +62,9 @@ def home(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
+    user = dynamo.tasks_get(username)
+    multiplier = user['multiplier']
+
     tasks = dynamo.tasks_list(username, 3)
     for task in tasks:
         task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
@@ -69,6 +72,7 @@ def home(request):
     return render(request, 'home.html', context={
         "username": username,
         "tasks": tasks,
+        "multiplier": multiplier,
     })
 
 
