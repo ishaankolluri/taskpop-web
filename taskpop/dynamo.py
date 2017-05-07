@@ -7,12 +7,6 @@ from operator import attrgetter
 
 # Load all of the tables
 
-#session = boto3.Session(
-    # Hard coded strings as credentials, not recommended.
-#    aws_access_key_id='AKIAJDQZGZAULHZR67AQ',
-#    aws_secret_access_key='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'
-#)
-
 with open('dynamodb_keys.json','r') as f:
     dynamodb_keys = json.loads(f.read())
 
