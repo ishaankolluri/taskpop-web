@@ -28,6 +28,11 @@
     width:100%;
 }
 
+.centered {
+    text-align: center;
+    color: #616161;
+}
+
 .buttonimg {
     cursor: pointer;
     margin-right: 100px;
