@@ -13,33 +13,27 @@
 
     {% if task_dict %}
         <table border='0'>
-
         <tr>
             <th >Date</th>
             <th class ="inputTask"> Task</th>
         </tr>
-
         {% for key, values in task_dict.items %}
-
             <tr>
                 <td class = "inputMonth"> {{key}}</td>
                 <td> </td>
             </tr>
-
             {% for v in values %}
                 <tr>
                     <td class = "inputDate">{{t.date}}</td>
                     <td class="tableNormal">
-                        <p>{{v.item}}</t></p>
-                        <p>{{v.description}}</p>
-                        <p>DEADLINE:&nbsp;{{v.readable_deadline }}&nbsp;&nbsp;&nbsp;EXPECTED TIME:&nbsp;{{v.ud_time}}&nbsp;</t></p>
-
+                        <p><b>{{ v.item }}</b></p>
+                        <p><em>{{v.description}}</em></p>
+                        <p><b>Deadline:</b>&nbsp;{{v.readable_deadline }}&nbsp;&nbsp;&nbsp;<b>Expected Completion Time:</b>&nbsp;{{v.ud_time}} hour(s)</p>
                     </td>
                 </tr>
-
             {%endfor%}
         {%endfor%}
-
+        </table>
     {% else %}
         <h1 class="title">You have no tasks available in your Calendar.</h1>
     {% endif %}
