@@ -28,6 +28,11 @@
     width:100%;
 }
 
+.centered {
+    text-align: center;
+    color: #616161;
+}
+
 .buttonimg {
     cursor: pointer;
     margin-right: 100px;
@@ -159,7 +164,7 @@ table {
     margin: auto;
 }
 
-#reprioritize {
+#reprioritize, #save {
     text-decoration: none;
     font-size: 20px;
     padding: 5px;
@@ -170,6 +175,6 @@ table {
     cursor: pointer;
 }
 
-#reprioritize:hover {
+#reprioritize:hover, #save:hover {
     background-color: #265a56;
 }
