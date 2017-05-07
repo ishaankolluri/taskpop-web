@@ -172,7 +172,6 @@ def blowup(request, task_id):
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
     tasks = dynamo.task_blowup(username, task_id)
-    print tasks
     return render(request, 'blowup.html', context={
         "tasks": tasks
     })
