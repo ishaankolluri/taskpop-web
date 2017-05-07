@@ -334,6 +334,13 @@ def _taskarchive_update_add_task(username, task_id):
             'username': username,
         }
     )
+    if 'Item' not in response:
+        _taskarchive_create(username)
+        response = tasksarchive.get_item(
+            Key={
+                'username': username,
+            }
+        )
     res = response['Item']
     task_list = res['tasks']
     if len(task_list) == 0:
