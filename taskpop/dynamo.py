@@ -405,12 +405,15 @@ def task_blowup(username, task_id, ntasks=4):
 
 
 def _tasks_batch(username, task_id_list = []):
+    MAX_ITEMS = 25
     print task_id_list
     if not task_id_list: # I wasn't passed a list
         task_id_list = tasks_get(username)['tasks']
         if not task_id_list: # A list doesn't exist.
             return []
     
+    if len(task_id_list)>MAX_ITEMS:
+        task_id_list = task_id_list[0:MAX_ITEMS]
     
     key_list = [];
     for task_id in task_id_list:
@@ -444,23 +447,32 @@ def taskarchive_get(username):
     )
     return response['Item']
 
-
-def new_priority(task_num, num_tasks):
-    MAX_PRIORITY = 4.9
-    MIN_PRIORITY = 0.1
-
-    priority_step = (MAX_PRIORITY-MIN_PRIORITY)/(num_tasks+1)
-    return Decimal(MIN_PRIORITY + (num_tasks - task_num) * priority_step)
-    
-    
-def task_update_all_priority(username, task_id_list):
+def task_update_all_priority(username, task_id_list, all_tasks = True):
     if not task_id_list:
         return
     print "listing dynamo: " + str(task_id_list)
-    tasks = tasks_list(username)
+    
+    if all_tasks:
+        tasks = tasks_list(username)
+    else:
+        tasks = _tasks_batch(username, task_id_list)
 
     num_tasks = len(tasks)
     put_requests = []
+
+    priorities = []
+    for task in tasks:
+        priorities.append(task['adj_priority']) #good use for a lambda
+    
+    def new_priority(task_num, num_tasks):
+        if num_tasks == 1:
+            return max(priorities)
+        max_task = num_tasks-1
+        max_priority = max(priorities)
+        min_priority = min(priorities)
+        priority_step = (max_priority-min_priority)/max_task
+        return Decimal(min_priority + (max_task - task_num) * priority_step)
+
     for task in tasks:
         print int(task['task_id'])
         task_num = task_id_list.index(task['task_id'])
@@ -492,3 +504,4 @@ def task_update_all_priority(username, task_id_list):
             'task': put_requests
         }
     )
+    return _tasks_batch(username, task_id_list)

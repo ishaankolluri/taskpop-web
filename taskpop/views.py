@@ -92,7 +92,7 @@ def reprioritize(request):
     print ids
     for i in range(len(ids)):
         ids[i] = int(ids[i])
-    dynamo.task_update_all_priority(username, ids)
+    dynamo.task_update_all_priority(username, ids, all_tasks = False)
     return HttpResponse(status=200)
 
 
