@@ -184,7 +184,7 @@ def blowup(request, task_id):
     # TODO: new page for blowup.
     print task_id
     
-    username = request.POST['username']
+    username = request.session['username']
     #dynamo.task_blowup(username, task_id)
     
     
