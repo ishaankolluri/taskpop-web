@@ -42,9 +42,11 @@ function signOut() {
         var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
         var cognitoUser = userPool.getCurrentUser();
         if(cognitoUser !== null){
+            console.log("Deauthenticating Cognito.");
             cognitoUser.signOut();
         }
         window.location.assign("login");
+
     });
 }
 
