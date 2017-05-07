@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from . import dynamo
 
+
 def _iso_datetime_to_human_readable(datetime_str):
     datetime_str = datetime_str.split('T')
     date = datetime_str[0].split('-')
@@ -27,6 +28,8 @@ def _iso_datetime_to_human_readable(datetime_str):
         am_pm = 'PM'
 
     return '%s/%s/%s %s:%s %s' % (month, day, year, hour, minute, am_pm)
+
+
 @csrf_exempt
 def deauth(request):
     request.session['username'] = None
@@ -43,7 +46,9 @@ def session(request):
     return HttpResponse(status=204)
 
 
+@csrf_exempt
 def firsttimeuser(request):
+    print "Adding a first time user..."
     username = request.POST['username']
     dynamo.tasks_create(username)
     return HttpResponse(status=200)
@@ -58,7 +63,6 @@ def home(request):
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
     # tasks = dynamo.tasks_list(username, 3)
-    # TODO: Note they come with more features, but we only use the following.
     task_one = {
         "task_id": 1,
         "item": "Do the laundry",
@@ -180,7 +184,7 @@ def blowup(request, task_id):
     # TODO: new page for blowup.
     print task_id
     
-    username = request.POST['username']
+    username = request.session['username']
     #dynamo.task_blowup(username, task_id)
     
     
@@ -254,7 +258,7 @@ def calendar(request):
     tasks = sorted(tasks, key=lambda k: k['deadline'])
     task_dict = {}
     for task in tasks:
-        month = getMonth(task["deadline"].split("-")[1])
+        month = get_month(task["deadline"].split("-")[1])
         task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
         if month in task_dict:
             task_dict[month].append(task)
@@ -263,9 +267,10 @@ def calendar(request):
             task_dict[month].append(task)
     return render(request, 'calendar.html',context={"task_dict": task_dict},status=200)
 
-#Convert Numbers to month format
-def getMonth(month):
+
+def get_month(month):
     return datetime.date(1900, int(month), 1).strftime('%B')
-#  Information Page - settings.html
+
+
 def settings(request):
     return render(request,'settings.html')

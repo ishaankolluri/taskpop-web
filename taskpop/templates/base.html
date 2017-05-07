@@ -27,7 +27,7 @@
 
 
     <!-- Google OAuth -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <meta name="google-signin-client_id" content="381942234330-s4s0o7nb0elv09gdvvfno0cotca456op.apps.googleusercontent.com">
 
     <!-- Personal JavaScript -->
@@ -44,6 +44,7 @@
     <a href="{% url 'taskpop:edit' %}">Task List</a>
     <a href="{% url 'taskpop:calendar' %}">Calendar</a>
     <a href="{% url 'taskpop:settings' %} ">About Us</a>
+    <a href="#logout" onclick="signOut()"><b>LOG OUT</b></a>
     <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">&#9776;</a>
 </div>
 {% endblock %}
