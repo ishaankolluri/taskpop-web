@@ -6,7 +6,22 @@ import random
 from operator import attrgetter
 
 # Load all of the tables
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+
+#session = boto3.Session(
+    # Hard coded strings as credentials, not recommended.
+#    aws_access_key_id='AKIAJDQZGZAULHZR67AQ',
+#    aws_secret_access_key='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'
+#)
+
+with open('dynamodb_keys.json','r') as f:
+    dynamodb_keys = json.loads(f.read())
+
+session = boto3.Session(
+    aws_access_key_id=dynamodb_keys['aws_access_key_id'],
+    aws_secret_access_key=dynamodb_keys['aws_secret_access_key']
+)
+
+dynamodb = session.resource('dynamodb', region_name='us-east-1')
 
 task = dynamodb.Table('task')
 tasks = dynamodb.Table('tasks')
