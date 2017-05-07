@@ -9,8 +9,11 @@ function saveModals(){
     var modals = document.getElementsByClassName("modalContent");
     var i;
     for(i = 0; i < modals.length; i++){
+        var modal_id = modals[i].id.split("_")[0];
         var inputs = modals[i].getElementsByTagName("input");
+
         var json_data = {};
+        json_data["task_id"] = modal_id;
         for(var j = 0; j < inputs.length; j++){
             var name = inputs[i].name;
             json_data[name] = inputs[i].value;
@@ -19,7 +22,7 @@ function saveModals(){
         // Hopefully this won't kick in a redirect b/c AJAX.
         $.ajax({
             type: "POST",
-            url: "/save/",
+            url: "/blowup_save/",
             data: {task: JSON.stringify(json_data) },
             success: console.log("Blowup Task Saved."),
             failure: alert("Something went wrong saving.")

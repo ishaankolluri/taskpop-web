@@ -157,6 +157,14 @@ def complete(request, task_id):
     return HttpResponseRedirect(reverse('taskpop:home'))
 
 
+def blowup_save(request):
+    username = request.session['username']
+    task = json.loads(request.POST['task'])
+    task_id = task["task_id"]
+    dynamo.task_update(username, task_id, task)
+    return HttpResponse(status=200)
+
+
 def save(request, task_id):
     print task_id
     print request.POST
