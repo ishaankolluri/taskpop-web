@@ -28,6 +28,11 @@
     width:100%;
 }
 
+.centered {
+    text-align: center;
+    color: #616161;
+}
+
 .buttonimg {
     cursor: pointer;
     margin-right: 100px;
@@ -35,7 +40,7 @@
 
 td {
     margin-bottom: 5px;
-
+    width: 80%;
 }
 
 
@@ -148,4 +153,28 @@ table {
     color: #265a56;
     text-decoration: none;
     cursor: pointer;
+}
+
+#deleteColumn, #blowupColumn {
+    width: 12%;
+    text-align: center;
+}
+
+#deleteColumn *, #blowupColumn * {
+    margin: auto;
+}
+
+#reprioritize, #save {
+    text-decoration: none;
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+    color: #F7F7F7;
+    background-color: #3C9089;
+    margin: 20px 10px;
+    cursor: pointer;
+}
+
+#reprioritize:hover, #save:hover {
+    background-color: #265a56;
 }
