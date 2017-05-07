@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/edit.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/blowup.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div>Reconfigure your sub-tasks as you see fit.</div>
+    <table>
+        <thead>
+            <th>Task</th>
+        </thead>
+    <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td id="{{ task.task_id }}" class="tableInfo">
+                    <p>{{ task.item }}</p>
+                    <p>{{ task.readable_deadline }}</p>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <div id="save">Save Subtasks</div>
+
+    <script>
+        var fixHelper = function(e, ui) {
+          ui.children().each(function() {
+            $(this).width($(this).width());
+          });
+          return ui;
+        };
+        $("tbody").sortable({
+         helper: fixHelper
+         });
+    </script>
+
+    {% for task in tasks %}
+        <div id="{{ task.task_id }}_modal" class="modalContent">
+            <span id="{{ task.task_id }}_close" class="closeModal">&times;</span>
+            <div class="titleContainer"><h2 class="title">Edit Subtask</h2></div>
+            <label class="formLabel" for="name">Task Name</label>
+            <input class="modalInput" id="name" type="text" name="name" value="{{ task.item }}">
+            <label class="formLabel" for="deadline">Expected Deadline</label>
+            <input class="modalInput" id="deadline" type="datetime-local" name="deadline" value="{{ task.deadline }}">
+            <label class="formLabel" for="time">Hours:</label>
+            <input class="modalInput" id="time" min=1 type="number" name="time" value="{{ task.ud_time }}">
+            <label class="formLabel" for="description">Description</label>
+            <input class="modalInput" id="description" type="text" name="description" value="{{ task.description }}">
+            <input name="hiddenPriority" style="display: none;" type="text" value="{{ task.ud_priority }}">
+        </div>
+        <script>
+            $(function(){
+               $("#{{ task.task_id }}").click(function(event){
+                  event.preventDefault();
+                  var modal = document.getElementById("{{ task.task_id }}_modal");
+                  modal.style.display = "block";
+                  $("#{{ task.task_id }}_close").click(function(event){
+                     modal.style.display = "none";
+                  });
+               });
+            });
+        </script>
+    {% endfor %}
+
+
+{% endblock %}

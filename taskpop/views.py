@@ -164,6 +164,7 @@ def save(request, task_id):
 
 
     username = request.session['username']
+
     #task = {
     #    'ud_priority': # int 0-4,
     #    'ud_time': # int in hours,
@@ -178,14 +179,14 @@ def save(request, task_id):
 
 
 def blowup(request, task_id):
-    # TODO: new page for blowup.
-    print task_id
-    
     username = request.session['username']
-    #dynamo.task_blowup(username, task_id)
+    # TODO: task_blowup should return list of newly formed tasks.
+    # tasks = dynamo.task_blowup(username, task_id)
     
     
-    return HttpResponseRedirect(reverse('taskpop:edit'))
+    return render(request, 'blowup.html', context={
+        # "tasks": tasks
+    })
 
 
 @csrf_exempt
