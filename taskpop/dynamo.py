@@ -57,8 +57,12 @@ def tasks_get(username):
             'username': username,
         }
     )
-    return response['Item']
-
+    if 'Item' in response:
+        return response['Item']
+    else:    
+        tasks_create(username)
+        return tasks_get(username)
+    
 
 '''
 def _tasks_get_next_task_num(username):
@@ -381,7 +385,9 @@ def _tasks_batch(username):
     for task_id in task_id_list:
         key_term = {'username': username, 'task_id': task_id}
         key_list.append(key_term)
-
+    
+    if len(task_id_list) == 0:
+        return []
     response = dynamodb.batch_get_item(
         RequestItems={
             'task': {
@@ -409,9 +415,3 @@ def taskarchive_get(username):
         }
     )
     return response['Item']
-
-
-
-
-
-
