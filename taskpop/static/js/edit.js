@@ -10,17 +10,11 @@ $(function(){
         $.ajax({
            type: "POST",
             url: "/reprioritize/",
-
+            data: {task_ids: JSON.stringify(ids)},
+            success: window.location.assign("edit"),
+            failure: function(err){
+                alert("Refresh and try again: " + err);
+            }
         });
-
     });
-
-   // $("#{{ task.task_id }}").click(function(event){
-   //    event.preventDefault();
-   //    var modal = document.getElementById("{{ task.task_id }}_modal");
-   //    modal.style.display = "block";
-   //    $("#{{ task.task_id }}_close").click(function(event){
-   //       modal.style.display = "none";
-   //    });
-   // });
 });

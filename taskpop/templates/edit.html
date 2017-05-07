@@ -11,7 +11,6 @@
 
 {% block content %}
     {% if tasks %}
-        <div id="reprioritize">Reprioritize Tasks</div>
         <table>
             <thead>
                 <th>Task</th>
@@ -31,6 +30,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div id="reprioritize">Reprioritize Tasks</div>
 
         <script>
             var fixHelper = function(e, ui) {
