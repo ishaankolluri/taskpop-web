@@ -11,13 +11,13 @@
 
 <!-- Lots of temporary, static content here. -->
 {% block content %}
-    <div class="greeting">Good evening, {{ username }}. Your top three priorities are below.</div>
+    <div class="greeting">Good evening, {{ username }}. Your top priorities are below.</div>
     <a href="" id="create" class="circleButton"><img src="static/img/Button.png" onmouseover="this.src='static/img/Hover.png'" onmouseout="this.src='static/img/Button.png'"></a>
 
 
     <div class="topThree">
         {% if not tasks %}
-            <div class="greeting">Good evening, {{ user }}. You don't have any pending tasks. Create one here!</div>
+            <div class="greeting">You don't have any pending tasks. Create one here!</div>
         {% else %}
         {% for task in tasks %}
             <div class="card">

@@ -62,25 +62,9 @@ def home(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
-    # tasks = dynamo.tasks_list(username, 3)
-    task_one = {
-        "task_id": 1,
-        "item": "Do the laundry",
-        "deadline": "2017-12-25T14:30",
-    }
-    task_two = {
-        "task_id": 2,
-        "item": "Assignment 7",
-        "date": "December 25th, 2017",
-        "deadline": "2017-12-25T16:30",
-    }
-    task_three = {
-        "task_id": 3,
-        "item": "Assignment 7",
-        "date": "December 25th, 2017",
-        "deadline": "2017-12-25T17:30",
-    }
-    tasks = [task_one, task_two, task_three]
+    
+    tasks = dynamo.tasks_list(username, 3)
+        
     for task in tasks:
         task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
 
@@ -162,7 +146,7 @@ def create(request):
        'item': item,
        'description': description,
     }
-    # dynamo.task_new(username, task)
+    dynamo.task_new(username, task)
     return HttpResponseRedirect(reverse('taskpop:home'))
 
 
