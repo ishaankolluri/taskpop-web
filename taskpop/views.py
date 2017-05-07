@@ -194,6 +194,9 @@ def calendar(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
+    user = dynamo.tasks_get(username)
+    multiplier = user['multiplier']
+
     tasks = dynamo.tasks_list(username)
     tasks = sorted(tasks, key=lambda k: k['deadline'])
     task_dict = {}
@@ -205,7 +208,9 @@ def calendar(request):
         else:
             task_dict[month] = []
             task_dict[month].append(task)
-    return render(request, 'calendar.html',context={"task_dict": task_dict},status=200)
+    return render(request, 'calendar.html',context={
+        "task_dict": task_dict,
+        "multiplier": multiplier}, status=200)
 
 
 def get_month(month):

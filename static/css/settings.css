@@ -1,0 +1,79 @@
+
+.greeting {
+    width: 60%;
+    float: left;
+    text-align: left;
+    font-size: 24px;
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    margin-right: 0px;
+
+}
+
+
+.header {
+    width: 60%;
+    float: left;
+    text-align: center;
+    font-size: 50px;
+    padding-left: 30px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    margin-right: 0px;
+    color:#aaaaaa;
+
+}
+
+th {
+    font-size: 18px;
+    background-color: #3C9089;
+    color: #F7F7F7;
+    border: none;
+
+}
+
+tr{
+    padding-bottom: 0px;
+    margin-bottom:0px;
+    width:100%;
+}
+
+hr {
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    background-color: #F7F7F7;
+}
+
+.tableNormal {
+    background-color: #EEEEEE;
+    text-align: left;
+    padding-left: 20px;
+    width:100%;
+    color:#616161;
+    transition: box-shadow 0.5s;
+    align:left;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tableNormal:hover {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.img-with-text {
+    text-align: justify;
+    width: 500;
+    height:300;
+}
+
+.img {
+    display: block;
+    margin: 0 auto;
+}
+
+

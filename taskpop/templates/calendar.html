@@ -10,7 +10,14 @@
 {% endblock %}
 {% block content %}
      <h1 style="font-size: 70px;text-align:center;color:#aaaaaa;"><img src="{% static 'img/calendar.png' %}" align="centre" height = 50px> Calendar </h1>
-
+    {% if multiplier %}
+        {% if multiplier > 1 %}
+            <h2 class="warning">Please note it will take you {{ multiplier }} times as long as you probably expect to complete these!</h2>
+        {% endif %}
+        {% if multiplier < 1 %}
+            <h2 class="optimist">Fortunately, it will take you {{ multiplier }} times as long as you probably expect to complete these.</h2>
+        {% endif %}
+    {% endif %}
     {% if task_dict %}
         <table border='0'>
         <tr>
@@ -35,7 +42,7 @@
         {%endfor%}
         </table>
     {% else %}
-        <h1 class="title">You have no tasks available in your Calendar.</h1>
+        <h1 class="title" style="text-align: center;">You have no tasks available in your Calendar.</h1>
     {% endif %}
 
 {% endblock %}
