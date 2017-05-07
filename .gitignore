@@ -9,5 +9,3 @@ tp/
 !.elasticbeanstalk/*.global.yml
 env/
 
-dynamodb_keys.json 
-
