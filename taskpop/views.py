@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
 import datetime
 
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
@@ -125,6 +124,17 @@ def edit(request):
     return render(request, 'edit.html', context={
         "tasks": tasks
     }, status=200)
+
+
+
+@csrf_exempt
+def reprioritize(request):
+    username = request.session['username']
+    ids = request.POST['ids']
+
+    # dynamo.task_update_priority(username, ids)
+    # TODO(keir): this would be the new function signature.
+    return HttpResponse(status=200)
 
 
 def logout(request):
