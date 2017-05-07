@@ -112,7 +112,7 @@ def _tasks_update_remove_task(username, task_id):
     res = response['Item']
 
     task_list = res['tasks']
-    task_list.remove(task_id)
+    task_list.remove(Decimal(task_id))
 
     tasks.update_item(
         Key={
@@ -158,6 +158,10 @@ def task_new(username, taskarg):
     } 
 
     """
+    
+    if len(taskarg['description']) == 0:
+        taskarg['description'] = 'No description'
+    
     task_id = _tasks_update_new_task(username)
     task.put_item(
         Item={
@@ -166,7 +170,7 @@ def task_new(username, taskarg):
             'created': datetime.utcnow().isoformat(),
             'modified': datetime.utcnow().isoformat(),
             'finished': datetime.utcnow().isoformat(),
-            'comp_time': 0,
+            'comp_time': Decimal(0.0),
             'adj_priority': Decimal(taskarg['ud_priority']),
             'ud_priority': taskarg['ud_priority'],
             'ud_time': Decimal(taskarg['ud_time']),

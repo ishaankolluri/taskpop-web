@@ -153,7 +153,7 @@ def create(request):
 def complete(request, task_id):
     username = request.session['username']
     completed_time = int(request.POST['task_duration'])
-    # dynamo.task_archive(username, task_id, completed_time):
+    dynamo.task_archive(username, task_id, completed_time)
     return HttpResponseRedirect(reverse('taskpop:home'))
 
 
