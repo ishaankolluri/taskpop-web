@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import datetime
+import json
 
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -130,7 +131,9 @@ def edit(request):
 @csrf_exempt
 def reprioritize(request):
     username = request.session['username']
-    ids = request.POST['ids']
+    ids = json.loads(request.POST['task_ids'])
+    for i in range(len(ids)):
+        ids[i] = int(ids[i])
 
     # dynamo.task_update_priority(username, ids)
     # TODO(keir): this would be the new function signature.
