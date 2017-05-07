@@ -95,7 +95,6 @@ def reprioritize(request):
     for i in range(len(ids)):
         ids[i] = int(ids[i])
     dynamo.task_update_all_priority(username, ids)
-    # TODO(keir): this would be the new function signature.
     return HttpResponse(status=200)
 
 
@@ -141,6 +140,8 @@ def blowup_save(request):
 
 
 def save(request, task_id):
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('taskpop:login'))
     print task_id
     print request.POST
     # TODO: update the task at task_id with the contents of request.POST
@@ -148,23 +149,39 @@ def save(request, task_id):
 
     username = request.session['username']
 
-    #task = {
-    #    'ud_priority': # int 0-4,
-    #    'ud_time': # int in hours,
-    #    'deadline': # date time in ISO FORMAT,
-    #    'item': String,
-    #    'description': String
-    #}     
-    # dynamo.task_update(username, task_id, task)
+
+    username = request.session['username']
+    
+    #TODO Fix modal to delete this fix.
+    if 'ud_priority' in request.POST:
+        priority = request.POST['ud_priority']
+    else:
+        priority = 2
+        
+    time = request.POST['ud_time']
+    deadline = request.POST['deadline']
+    item = request.POST['item']
+    description = request.POST['description']
+    task = {
+       'ud_priority': priority,
+       'ud_time': time,
+       'deadline': deadline,
+       'item': item,
+       'description': description,
+    }
+
+    dynamo.task_update(username, task_id, task)
     
     
     return HttpResponseRedirect(reverse('taskpop:edit'))
 
 
 def blowup(request, task_id):
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
     # TODO: task_blowup should return list of newly formed tasks.
-    # tasks = dynamo.task_blowup(username, task_id)
+    tasks = dynamo.task_blowup(username, task_id)
     return render(request, 'blowup.html', context={
         # "tasks": tasks
     })
@@ -183,57 +200,10 @@ def delete(request, task_id):
 
 # Sends the Tasks in sorted format to calendar.html
 def calendar(request):
-    task_one = {
-        "task_id": 1,
-        "item": "Do the laundry",
-        "deadline": "2017-12-30T04:30",  # TODO: This needs to be decoded.
-        "description": "Urgent. Dry Wash the Jacket ",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-
-    task_two = {
-        "task_id": 1,
-        "item": "ML HW",
-        "deadline": "2017-12-30T03:30",  # TODO: This needs to be decoded.
-        "description": "Redo the SVM Algorithm",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-    task_three = {
-        "task_id": 1,
-        "item": "Algo Course",
-        "deadline": "2017-11-30T03:00",  # TODO: This needs to be decoded.
-        "description": "  Algorithm chapter 5",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-    task_four = {
-        "task_id": 1,
-        "item": "Do the laundry",
-        "deadline": "2017-12-28T04:30",  # TODO: This needs to be decoded.
-        "description": "Sample Description 1",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-    task_five = {
-        "task_id": 1,
-        "item": "Do the laundry",
-        "deadline": "2017-11-30T17:30",  # TODO: This needs to be decoded.
-        "description": "Sample Description 1",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-    task_six = {
-        "task_id": 1,
-        "item": "Finish of the book",
-        "deadline": "2017-01-15T20:00",  # TODO: This needs to be decoded.
-        "description": "Work on the text",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-
-    tasks = [task_one, task_two,task_three,task_four,task_five, task_six]
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('taskpop:login'))
+    username = request.session['username']
+    tasks = dynamo.tasks_list(username)
     tasks = sorted(tasks, key=lambda k: k['deadline'])
     task_dict = {}
     for task in tasks:
