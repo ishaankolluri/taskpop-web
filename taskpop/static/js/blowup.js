@@ -18,8 +18,8 @@ function saveModals(){
             url: "/reprioritize/",
             data: {task_ids: JSON.stringify(ids)},
             success: function(){
-                var host = window.location.hostname;
-                window.location.replace("edit");
+                var host = window.location.host;
+                location.href= "/edit"
             },
             failure: function(err){
                 alert("Refresh and try again: " + err);
