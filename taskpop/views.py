@@ -128,10 +128,13 @@ def complete(request, task_id):
     dynamo.task_archive(username, task_id, completed_time)
     return HttpResponseRedirect(reverse('taskpop:home'))
 
-
+@csrf_exempt
 def blowup_save(request):
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('taskpop:login'))
     username = request.session['username']
     task = json.loads(request.POST['task'])
+    print task
     task_id = task["task_id"]
     dynamo.task_update(username, task_id, task)
     return HttpResponse(status=200)
