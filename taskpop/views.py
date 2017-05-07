@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
 import datetime
 
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
@@ -127,6 +126,17 @@ def edit(request):
     }, status=200)
 
 
+
+@csrf_exempt
+def reprioritize(request):
+    username = request.session['username']
+    ids = request.POST['ids']
+
+    # dynamo.task_update_priority(username, ids)
+    # TODO(keir): this would be the new function signature.
+    return HttpResponse(status=200)
+
+
 def logout(request):
     # The OAuth should already have handled this.
     return HttpResponseRedirect(reverse('taskpop:login'))
@@ -184,7 +194,7 @@ def blowup(request, task_id):
     # TODO: new page for blowup.
     print task_id
     
-    username = request.POST['username']
+    username = request.session['username']
     #dynamo.task_blowup(username, task_id)
     
     
