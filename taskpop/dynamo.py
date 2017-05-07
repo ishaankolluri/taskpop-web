@@ -202,6 +202,7 @@ def task_get(username, task_id):
 
 def task_update(username, task_id, taskarg):
     # Just overwrite the values.  Have Django get into a form then push the whole things back in.
+    task_id = int(task_id)
     response = task.get_item(
         Key={
             'username': username,
@@ -368,6 +369,7 @@ def task_archive(username, task_id, completed_time):
 
 def task_blowup(username, task_id, ntasks=4):
     weight = .01
+    task_id = int(task_id)
     parent = task_get(username, task_id)
     task_remove(username, task_id)
     task_id_list = []
@@ -387,7 +389,7 @@ def task_blowup(username, task_id, ntasks=4):
                 'ud_priority': parent['ud_priority'],
                 'ud_time': Decimal(parent['ud_time'] / ntasks),
                 'deadline': parent['deadline'],
-                'item': parent['item'] + ' - Part 1',
+                'item': parent['item'] + ' - Part '+str(i=1),
                 'description': parent['description']
             }
         )
