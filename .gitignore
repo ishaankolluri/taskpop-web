@@ -8,3 +8,6 @@ tp/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 env/
+
+dynamodb_keys.json 
+
