@@ -1,8 +1,25 @@
+# real code
 import boto3
+from decimal import *
+
+
+# testing code ###
 from taskpop import dynamo
 import pprint
+import json
 
-username = "lars@gmail.com"
+username = "kcl2143@columbia.edu"
+
+
+with open('dynamodb_keys.json','r') as f:
+        dynamodb_keys = json.loads(f.read())
+
+session = boto3.Session(
+    aws_access_key_id=dynamodb_keys['aws_access_key_id'],
+    aws_secret_access_key=dynamodb_keys['aws_secret_access_key']
+)
+
+# end testing code ####
 
 def lambda_logic():
     # assume callback says the username
@@ -11,7 +28,19 @@ def lambda_logic():
     max_items = 50
 
     # Setup boto3 resources
-    dynamodb = boto3.resource('dynamodb')
+
+
+    
+
+    from boto3.dynamodb.types import DYNAMODB_CONTEXT
+    # Inhibit Inexact Exceptions
+    DYNAMODB_CONTEXT.traps[Inexact] = 0
+    # Inhibit Rounded Exceptions
+    DYNAMODB_CONTEXT.traps[Rounded] = 0
+
+    dynamodb = session.resource('dynamodb', region_name='us-east-1')
+#    dynamodb = boto3.resource('dynamodb')
+
     tasks_table = dynamodb.Table('tasks')
     tasksarchive_table = dynamodb.Table('tasksarchive')
 
@@ -21,15 +50,20 @@ def lambda_logic():
             'username': username,
         }
     )
+    
+    print(response)
+    
     task_id_list = response['Item']['tasks']
     task_id_list.reverse() # should be oldest first
     if len(task_id_list) > max_items:
         task_id_list = task_id_list[0:max_items]
+
+    print(task_id_list)
     
     # Batch get the items    
     key_list = [];
     for task_id in task_id_list:
-        key_term = {'username': username, 'task_id': task_id}
+        key_term = {'username': username, 'task_id': int(task_id)}
         key_list.append(key_term)
         
     response = dynamodb.batch_get_item(
