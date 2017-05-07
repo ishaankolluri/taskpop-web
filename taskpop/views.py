@@ -77,33 +77,10 @@ def home(request):
 def edit(request):
     if 'username' not in request.session:
         return HttpResponseRedirect(reverse('taskpop:login'))
-    # tasks = dynamo.tasks_list(username)
+    username = request.session['username']
+    tasks = dynamo.tasks_list(username)
     
-    task_one = {
-        "task_id": 1,
-        "item": "Do the laundry",
-        "deadline": "1994-12-30T05:30",  # TODO: This needs to be decoded.
-        "description": "Urgent. Dry Wash the Jacket",
-        "ud_priority": 4,
-        "ud_time": 7,
-    }
-    task_two = {
-        "task_id": 2,
-        "item": "Assignment 7",
-        "deadline": "2017-12-25T04:30",
-        "description": "Write the documentation of the code",
-        "ud_priority": 3,
-        "ud_time": 5,
-    }
-    task_three = {
-        "task_id": 3,
-        "item": "ML",
-        "deadline": "2017-12-25T04:30",
-        "description": "Work on SVMs",
-        "ud_priority": 1,
-        "ud_time": 2,
-    }
-    tasks = [task_one, task_two, task_three]
+
     for task in tasks:
         task['readable_deadline'] = _iso_datetime_to_human_readable(task['deadline'])
     return render(request, 'edit.html', context={
@@ -119,7 +96,7 @@ def reprioritize(request):
     for i in range(len(ids)):
         ids[i] = int(ids[i])
 
-    # dynamo.task_update_priority(username, ids)
+    dynamo.task_update_all_priority(username, ids)
     # TODO(keir): this would be the new function signature.
     return HttpResponse(status=200)
 
